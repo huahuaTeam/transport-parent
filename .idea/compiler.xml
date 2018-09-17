@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="transport-common" />
+        <module name="transport-entity" />
+        <module name="transport-mapper" />
+        <module name="transport-service" />
+        <module name="transport-web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="transport-common" target="1.8" />
+      <module name="transport-entity" target="1.8" />
+      <module name="transport-mapper" target="1.8" />
+      <module name="transport-parent" target="1.8" />
+      <module name="transport-service" target="1.8" />
+      <module name="transport-web" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

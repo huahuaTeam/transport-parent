@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.java.mapper.Info2Mapper" >
+  	<select id="insertInfo2" parameterType="Info2" >
+  		insert into info2 values(#{id},#{name},#{age},#{city}); 
+  	</select>
+  	
+  	<select id="getList" resultType="Info2">
+  		select * from info2
+  	</select>
+</mapper>
