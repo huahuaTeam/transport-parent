@@ -20,7 +20,7 @@
 
 		<!-- fonts -->
 
-		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
+		<!--<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />-->
 
 		<!-- ace styles -->
 
@@ -104,7 +104,13 @@
 											</form>
 
 											<div class="social-or-login center">
-												<span class="bigger-110">Or Login Using</span>
+												<span class="bigger-110">
+													<!--/*@thymesVar id="err" type=""*/-->
+													<span th:if="${err} != null">
+														<span style="color: red;" th:text="${err}"></span>
+													</span>
+
+												</span>
 											</div>
 
 											<div class="social-login center">
@@ -266,13 +272,12 @@
 
 		<!--[if !IE]> -->
 
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>-->
 
 		<!-- <![endif]-->
 
 		<!--[if IE]>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<![endif]-->
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
 
 		<!--[if !IE]> -->
 

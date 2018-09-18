@@ -30,12 +30,16 @@ public class Info2Controller {
 
 
 	@RequestMapping("login")
-	public String login(String login,String pwd,HttpSession session){
+	public String login(String login,String pwd,HttpSession session,Model model){
         System.out.println(login+"     "+pwd);
         Map<String,Object> user =testService.selUser(login,pwd);
+        if(user!=null){
 
-        System.out.println(user);
-//        session.setAttribute("user",user);
+            System.out.println(user);
+            session.setAttribute("user",user);
+            return "index";
+        }
+        model.addAttribute("err","输入的账号密码有误");
         return  "login";
     }
 
