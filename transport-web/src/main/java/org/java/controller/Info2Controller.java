@@ -28,6 +28,12 @@ public class Info2Controller {
         return "error-404";
     }
 
+    @RequestMapping("/errorsH")
+    public String errorH() {
+        System.out.println("table");
+        return "error-404";
+    }
+
 
     @RequestMapping("/blank")
     public String blank() {
