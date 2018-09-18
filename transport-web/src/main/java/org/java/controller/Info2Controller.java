@@ -22,10 +22,16 @@ public class Info2Controller {
 	@Autowired
     private Info2Mapper mapper;
 
-    @RequestMapping("/tables")
-    public String table() {
+    @RequestMapping("/errors")
+    public String error() {
         System.out.println("table");
-        return "tables";
+        return "error-404";
+    }
+
+
+    @RequestMapping("/blank")
+    public String blank() {
+        return "blank";
     }
 
     @RequestMapping("/index")
