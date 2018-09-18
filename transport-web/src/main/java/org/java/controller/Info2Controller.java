@@ -22,7 +22,11 @@ public class Info2Controller {
 	@Autowired
     private Info2Mapper mapper;
 
-
+    @RequestMapping("/tables")
+    public String table() {
+        System.out.println("table");
+        return "tables";
+    }
 
     @RequestMapping("/index")
     public String index(Model model,HttpSession session) {
