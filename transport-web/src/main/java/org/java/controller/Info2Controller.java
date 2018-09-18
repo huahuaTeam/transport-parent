@@ -43,6 +43,10 @@ public class Info2Controller {
         );
         System.out.println("" +
                 "111"
+                +"ashfkjasnfioasjfaslfnasnlfjsdffnsaddasfasfasfasdasdasdasd"
+        );
+        System.out.println("" +
+                "111"
                 +"ashfkjasnfioasj1faslfnasnlfjsdffnsaddasfasfasfasdasdasdasd"
         );
         return "index";
