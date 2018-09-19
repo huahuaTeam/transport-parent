@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script src="/js/jquery-1.8.3.min.js"></script>
+
+    <style>
+        th{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h3>添加客户</h3>
+
+    <form th:action="@{/clien/addClient.do}" method="post">
+        <table class="table table-striped" align="center">
+            <thead>
+            <tr>
+                <th colspan="2">基础信息</th>
+                <th colspan="2">联系</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>客户编号：</td>
+                <td><input type="text" name="" placeholder="客户编号由系统制动生成" readonly></td>
+                <td>联系人：</td>
+                <td><input type="text" name="" placeholder="联系人"></td>
+            </tr>
+            <tr>
+                <td>密码：</td>
+                <td><input type="text" name="" placeholder="密码" ></td>
+                <td>电话：</td>
+                <td><input type="text" name="" placeholder="电话"></td>
+            </tr>
+            <tr>
+                <td>客户名称：</td>
+                <td><input type="text" name="" placeholder="客户名称" ></td>
+                <td>信用额度（1-100）：</td>
+                <td><input type="text" name="" placeholder="信用额度"></td>
+            </tr>
+            <tr>
+                <td>客户简称：</td>
+                <td><input type="text" name="" placeholder="客户简称" ></td>
+                <td>电子邮箱：</td>
+                <td><input type="text" name="" placeholder="电子邮箱"></td>
+            </tr>
+            <tr>
+                <td>行业：</td>
+                <td><input type="text" name="" placeholder="行业" ></td>
+                <td>地址：</td>
+                <td><input type="text" name="" placeholder="地址"></td>
+            </tr>
+            </tbody>
+
+        </table>
+    </form>
+</body>
+</html>

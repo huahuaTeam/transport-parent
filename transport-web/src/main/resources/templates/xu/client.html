@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <link rel="stylesheet" href="./js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="./js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="./js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script src="./js/jquery-1.8.3.min.js"></script>
 </head>
 <body>
-    <h1>这是一个客户信息</h1>
+    <h3>客户资料</h3>
+    <a th:href="@{/client/add.do}" style="text-align: right">添加客户</a>
 </body>
 </html>
