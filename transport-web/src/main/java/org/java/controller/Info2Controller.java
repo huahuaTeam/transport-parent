@@ -45,7 +45,6 @@ public class Info2Controller {
 
 	@RequestMapping("/")
 	public String load(){
-
 	    return "login";
     }
 
@@ -118,7 +117,7 @@ public class Info2Controller {
 		System.out.println("进入到了add");
 		System.out.println("111111111111111111111111");
 		info2Service.insertInfo2(info2);
-		return "redirect:show.AAA";
+		return "show";
 	}
 
     @Override
