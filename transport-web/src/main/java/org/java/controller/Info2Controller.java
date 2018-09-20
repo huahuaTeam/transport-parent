@@ -48,81 +48,8 @@ public class Info2Controller {
 	    return "login";
     }
 
-
-    @RequestMapping("/errors")
-    public String error() {
-        System.out.println("table");
-        return "error-404";
-    }
-
-
     @RequestMapping("/blank")
     public String blank() {
         return "blank";
     }
-
-    @RequestMapping("/index")
-    public String index(Model model,HttpSession session) {
-        System.out.println("进入了index");
-        model.addAttribute("info",1);
-    	session.setAttribute("ses","jack");
-        System.out.println("" +
-                "111"
-                +"ashfkjasnfioasjfaslfnasnlfjsdffnsaddasfasfasfasdasdasdasd"
-        );
-        System.out.println("" +
-                "111"
-                +"ashfkjasnfioasjfaslfnasnlfjsdffnsaddasfasfasfasdasdasdasd"
-        );
-        System.out.println("" +
-                "111"
-                +"ashfkjasnfioasjfaslfnasnlfjsdffnsaddasfasfasfasdasdasdasd"
-        );
-        System.out.println("" +
-                "111"
-                +"ashfkjasnfioasj1faslfnasnlfjsdffnsaddasfasfasfasdasdasdasd"
-        );
-        return "index";
-    }
-    
-    @RequestMapping("/show")
-    public String success(Model model) {
-    	List<Info2> list = mapper.getList();
-        for (Info2 info2 : list) {
-            System.out.println(info2);
-        }
-        System.out.println("" +
-                "111"
-                +"ashfkjasnfioasjfaslfnasnlfjsdffnsaddasfasfasfasdasdasdasd"
-        );
-        model.addAttribute("list",list);
-    	model.addAttribute("flag",true);
-    	System.out.println("进入了success");
-        return "success";
-    }
-    
-    @RequestMapping("/paramter/{id}/{name}")
-    public String success(@PathVariable("id")Integer id,@PathVariable("name")String name){
-    	System.out.println(id+"===="+name);
-        System.out.println("" +
-                "111"
-                +"ashfkjasnfioasjfaslfnasnlfjsdffnsaddasfasfasfasdasdasdasd"
-        );
-        return "show";
-    }
-    
-	
-	@RequestMapping("/add")
-	public String add(Info2 info2){
-		System.out.println("进入到了add");
-		System.out.println("111111111111111111111111");
-		info2Service.insertInfo2(info2);
-		return "show";
-	}
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-	
 }

@@ -10,7 +10,6 @@ public class ClientController{
 
     @RequestMapping("/")
     public String client(){
-
         return "/xu/client";
     }
 

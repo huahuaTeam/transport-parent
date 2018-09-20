@@ -10,6 +10,6 @@ import java.util.Map;
 
 @Mapper
 public interface TestMapper {
-   /* @Select("select * from user where user_name =#{login} and user_password =#{pwd}")*/
-    public Map<String,Object> selAll(@Param("login") String login ,@Param("pwd") String pwd);
+    /* @Select("select * from user where user_name =#{login} and user_password =#{pwd}")*/
+    public Map<String, Object> selAll(@Param("login") String login, @Param("pwd") String pwd);
 }
