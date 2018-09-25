@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.java.mapper.TranClientMapper" >
+  <resultMap id="BaseResultMap" type="org.java.entity.TranClient" >
+    <id column="client_id" property="clientId" jdbcType="VARCHAR" />
+    <result column="client_pwd" property="clientPwd" jdbcType="VARCHAR" />
+    <result column="client_com" property="clientCom" jdbcType="VARCHAR" />
+    <result column="client_short" property="clientShort" jdbcType="VARCHAR" />
+    <result column="client_type" property="clientType" jdbcType="VARCHAR" />
+    <result column="client_name" property="clientName" jdbcType="VARCHAR" />
+    <result column="client_tel" property="clientTel" jdbcType="VARCHAR" />
+    <result column="client_credit" property="clientCredit" jdbcType="INTEGER" />
+    <result column="client_email" property="clientEmail" jdbcType="VARCHAR" />
+    <result column="client_address" property="clientAddress" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    client_id, client_pwd, client_com, client_short, client_type, client_name, client_tel, 
+    client_credit, client_email, client_address
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tran_client
+    where client_id = #{clientId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tran_client
+    where client_id = #{clientId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="org.java.entity.TranClient" >
+    insert into tran_client (client_id, client_pwd, client_com, 
+      client_short, client_type, client_name, 
+      client_tel, client_credit, client_email, 
+      client_address)
+    values (#{clientId,jdbcType=VARCHAR}, #{clientPwd,jdbcType=VARCHAR}, #{clientCom,jdbcType=VARCHAR}, 
+      #{clientShort,jdbcType=VARCHAR}, #{clientType,jdbcType=VARCHAR}, #{clientName,jdbcType=VARCHAR}, 
+      #{clientTel,jdbcType=VARCHAR}, #{clientCredit,jdbcType=INTEGER}, #{clientEmail,jdbcType=VARCHAR}, 
+      #{clientAddress,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.java.entity.TranClient" >
+    insert into tran_client
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="clientId != null" >
+        client_id,
+      </if>
+      <if test="clientPwd != null" >
+        client_pwd,
+      </if>
+      <if test="clientCom != null" >
+        client_com,
+      </if>
+      <if test="clientShort != null" >
+        client_short,
+      </if>
+      <if test="clientType != null" >
+        client_type,
+      </if>
+      <if test="clientName != null" >
+        client_name,
+      </if>
+      <if test="clientTel != null" >
+        client_tel,
+      </if>
+      <if test="clientCredit != null" >
+        client_credit,
+      </if>
+      <if test="clientEmail != null" >
+        client_email,
+      </if>
+      <if test="clientAddress != null" >
+        client_address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="clientId != null" >
+        #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="clientPwd != null" >
+        #{clientPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="clientCom != null" >
+        #{clientCom,jdbcType=VARCHAR},
+      </if>
+      <if test="clientShort != null" >
+        #{clientShort,jdbcType=VARCHAR},
+      </if>
+      <if test="clientType != null" >
+        #{clientType,jdbcType=VARCHAR},
+      </if>
+      <if test="clientName != null" >
+        #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="clientTel != null" >
+        #{clientTel,jdbcType=VARCHAR},
+      </if>
+      <if test="clientCredit != null" >
+        #{clientCredit,jdbcType=INTEGER},
+      </if>
+      <if test="clientEmail != null" >
+        #{clientEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="clientAddress != null" >
+        #{clientAddress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.java.entity.TranClient" >
+    update tran_client
+    <set >
+      <if test="clientPwd != null" >
+        client_pwd = #{clientPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="clientCom != null" >
+        client_com = #{clientCom,jdbcType=VARCHAR},
+      </if>
+      <if test="clientShort != null" >
+        client_short = #{clientShort,jdbcType=VARCHAR},
+      </if>
+      <if test="clientType != null" >
+        client_type = #{clientType,jdbcType=VARCHAR},
+      </if>
+      <if test="clientName != null" >
+        client_name = #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="clientTel != null" >
+        client_tel = #{clientTel,jdbcType=VARCHAR},
+      </if>
+      <if test="clientCredit != null" >
+        client_credit = #{clientCredit,jdbcType=INTEGER},
+      </if>
+      <if test="clientEmail != null" >
+        client_email = #{clientEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="clientAddress != null" >
+        client_address = #{clientAddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where client_id = #{clientId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.java.entity.TranClient" >
+    update tran_client
+    set client_pwd = #{clientPwd,jdbcType=VARCHAR},
+      client_com = #{clientCom,jdbcType=VARCHAR},
+      client_short = #{clientShort,jdbcType=VARCHAR},
+      client_type = #{clientType,jdbcType=VARCHAR},
+      client_name = #{clientName,jdbcType=VARCHAR},
+      client_tel = #{clientTel,jdbcType=VARCHAR},
+      client_credit = #{clientCredit,jdbcType=INTEGER},
+      client_email = #{clientEmail,jdbcType=VARCHAR},
+      client_address = #{clientAddress,jdbcType=VARCHAR}
+    where client_id = #{clientId,jdbcType=VARCHAR}
+  </update>
+</mapper>
