@@ -57,7 +57,7 @@ public class RepositoryController {
 
 
     /**
-     * 添加c'g
+     * 添加仓库
      * @param map
      * @return
      */
@@ -70,15 +70,15 @@ public class RepositoryController {
         String mapId =addmap.get("lng")+","+addmap.get("lat"); //得到经纬度字符串存入数据库中
         map.put("mapId",mapId); //添加经纬度到map集合中
 
-        String str = LatitudeUtils.spilt(addres); //得到拆分后的字符串
-        map.put("address",str); //添加到map集合中
+        //String str = LatitudeUtils.spilt(addres); //得到拆分后的字符串
+        map.put("address",addres); //添加到map集合中
 
         //在session中取到user
-       // Map<String,Object> user = (Map<String, Object>) session.getAttribute("user");
-        //String userId = (String) user.get("user_id");
-        //System.out.println(userId);
+        Map<String,Object> user = (Map<String, Object>) session.getAttribute("user");
+        String userId = (String) user.get("user_id");
+        System.out.println(userId);
 
-         map.put("userId","19d43d0e-bca4-11e8-905c-52540074defd"); //存入当前用户到map中
+         map.put("userId",userId); //存入当前用户到map中
         service.addRepository(map);  //添加到数据库
          return "redirect:/loadRepsitory.do";
     }
@@ -100,10 +100,9 @@ public class RepositoryController {
     @ResponseBody
     public Map<String,Object> updateRep(String id) throws  Exception{
         Map<String,Object> descMap = service.findByidRep(id);
+        String r_address = descMap.get("r_address").toString();
+        request.setAttribute("r_address",r_address);
         System.out.println(descMap);
         return descMap;
     }
-
-
-
 }

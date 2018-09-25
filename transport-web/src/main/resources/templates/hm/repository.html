@@ -25,15 +25,15 @@
 
 </style>
 <body>
-<div style="margin-top: 10px;margin-left: 1000px">
+<div style="margin-top: 10px;margin-left: 700px">
 <form action="search.do" method="post">
 
     <span th:if="${repname==''}">
-    <input type="text" class placeholder="输入仓库名称" name="repname" th:value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="text" class placeholder="输入仓库名称.." name="repname" th:value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </span>
 
     <span th:if="${repname!=''}">
-    <input type="text" class placeholder="输入仓库名称" name="repname" th:value="${repname}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="text" class placeholder="输入仓库名称.." name="repname" th:value="${repname}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </span>
 
     <input type="submit" value="搜索" class="btn btn-info"/>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -161,6 +161,12 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">仓库名称：</label>
                             <div class="col-sm-8" >
+
+                                <span th:if="">
+
+
+                                </span>
+
                                 <input  name="rname" minlength="2" type="text" width="300px" id="rname" class="form-control" required="" aria-required="true">
                             </div>
                         </div>
@@ -169,7 +175,7 @@
                             <div class="col-sm-8 ">
                                 <div style="position: relative;">
                                     <!--class="form-control required"-->
-                                    <input name="address" readonly type="text" id="address"  size="37" data-toggle="city-picker" placeholder="选择省/市/区">
+                                    <input name="address" readonly type="text" id="address1"  size="37" data-toggle="city-picker" value="" />
                                 </div>
                             </div>
                         </div>
@@ -270,11 +276,12 @@
             dataType:"json",
             success:function(data){
                 $("#rname").val(data.r_name);
-                $("#address").val(data.r_address);
+                //$("#address1").val(data.r_address);
                 $("#rtype").val(data.r_type);
                 $("#rarea").val(data.R_area);
                 $("#repertoryAddress2").html(data.desc_address);
                 $('#myModa2').modal('show');
+                alert(data.r_address);
             }
         });
     }
