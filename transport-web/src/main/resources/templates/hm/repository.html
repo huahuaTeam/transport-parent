@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link rel="stylesheet" href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/js/dataTables/dataTables.bootstrap.css" type="text/css" />
+<style type="text/css">
+    .form-group label{
+        width:150px;
+        text-align: left;
+    }
+    .form-group{
+        width:500px;
+    }
+    a{
+        text-decoration: none;
+    }
+    a:hover{
+        color: red;
+        cursor:pointer; //鼠标变成手的样式
+    }
+
+
+</style>
+<body>
+<div style="margin-top: 10px;margin-left: 1000px">
+<form action="search.do" method="post">
+
+    <span th:if="${repname==''}">
+    <input type="text" class placeholder="输入仓库名称" name="repname" th:value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </span>
+
+    <span th:if="${repname!=''}">
+    <input type="text" class placeholder="输入仓库名称" name="repname" th:value="${repname}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </span>
+
+    <input type="submit" value="搜索" class="btn btn-info"/>&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="button" value="添加"  class="btn btn-info" onclick="$('#myModal').modal('show')"/>&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="button" value="查看地图"  class="btn btn-info"/>
+
+
+</form>
+</div>
+<hr/>
+<table class="table table-striped" align="center" id="myTable">
+    <thead>
+    <tr>
+        <th>编号</th>
+        <th>仓库名</th>
+        <th>仓库类型</th>
+        <th>仓库面积</th>
+        <th>详细地址</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr th:each="k,v : ${#request.getAttribute('replist')}">
+            <td th:text="${v.count}"></td>
+            <td th:text="${k.r_name}"></td>
+            <td th:text="${k.r_type}"></td>
+            <td th:text="${k.R_area}+㎡"></td>
+            <td th:text="${k.r_address}"></td>
+
+            <td>
+                <a th:onclick="'javascript:searchrep(\''+${k.r_id}+'\');'">查看</a>&nbsp;&nbsp;&nbsp;
+                <a th:onclick="'javascript:updateRep(\''+${k.r_id}+'\');'">修改</a>&nbsp;&nbsp;&nbsp;
+                <a th:href="@{/updstatus.do(id=${k.r_id},status=1)}" onclick="return confirm('确认要删除吗?')">禁用</a>&nbsp;&nbsp;&nbsp;
+           </td>
+
+        </tr>
+    </tbody>
+</table>
+
+<!-- 模态框（Modal）  添加仓库-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    添加仓库
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="ibox-content" style="width: 450px">
+                    <form class="form-horizontal m-t" method="post" id="commentForms" action="addrepository.do" style="width: 500px;">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">仓库名称：</label>
+                            <div class="col-sm-8" >
+                                <input  name="rname" minlength="2" type="text" width="300px" class="form-control" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">请选择省/市/区：</label>
+                            <div class="col-sm-8 ">
+                                <div style="position: relative;">
+                                    <!--class="form-control required"-->
+                                    <input name="address" readonly type="text"  size="37" data-toggle="city-picker" placeholder="选择省/市/区">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">仓库类型：</label>
+                            <div class="col-sm-8" >
+                                <select class="form-control m-b" name="rtype" width="300px">
+                                    <option value="-1">请选择</option>
+                                    <option value="楼房库">楼房库</option>
+                                    <option value="平房库">平房库</option>
+                                    <option value="立体仓库">立体仓库</option>
+                                    <option value="地下仓库">地下仓库</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">仓库面积：</label>
+                            <div class="col-sm-8" >
+                                <input  name="rarea" minlength="2" type="text"  class="form-control" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">详细地址：</label>
+                            <div class="col-sm-8">
+                                <textarea  name="repertoryAddress" id="repertoryAddress" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                关闭
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                保存
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!--------------------------------------------------------------------------------------------------------------------------->
+
+<!-- 模态框（Modal）  修改仓库--->
+<div class="modal fade" id="myModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel2">
+                    添加仓库
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="ibox-content" style="width: 450px">
+                    <form class="form-horizontal m-t" method="post" id="commentForms2" action="updrepository.do" style="width: 500px;">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">仓库名称：</label>
+                            <div class="col-sm-8" >
+                                <input  name="rname" minlength="2" type="text" width="300px" id="rname" class="form-control" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">请选择省/市/区：</label>
+                            <div class="col-sm-8 ">
+                                <div style="position: relative;">
+                                    <!--class="form-control required"-->
+                                    <input name="address" readonly type="text" id="address"  size="37" data-toggle="city-picker" placeholder="选择省/市/区">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">仓库类型：</label>
+                            <div class="col-sm-8" >,
+                                <select class="form-control m-b" name="rtype" width="300px" id="rtype">
+                                    <option value="-1">请选择</option>
+                                    <option value="楼房库">楼房库</option>
+                                    <option value="平房库">平房库</option>
+                                    <option value="立体仓库">立体仓库</option>
+                                    <option value="地下仓库">地下仓库</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">仓库面积：</label>
+                            <div class="col-sm-8" >
+                                <input  name="rarea" minlength="2" type="text" id="rarea" class="form-control" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">详细地址：</label>
+                            <div class="col-sm-8">
+                                <textarea  name="repertoryAddress" id="repertoryAddress2" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                关闭
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                保存
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+</body>
+<script src="/hm/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script src="/js/dataTables/jquery.dataTables.js"></script>
+<script src="/js/dataTables/dataTables.bootstrap.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function (){
+        $('#myTable').DataTable({
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 项结果",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+            "lengthMenu": [5,10,15,20,30],
+            "autoWidth":true
+        });
+    });
+</script>
+<script src="/hm/dist/js/city-picker.data.js"></script>
+<script src="/hm/dist/js/city-picker.js"></script>
+<link rel="stylesheet" type="text/css" href="/hm/dist/css/city-picker.css"/>
+<script type="text/javascript">
+
+    function searchrep(obj) {
+        alert(obj);
+    }
+    
+    
+    function updateRep(obj) {
+        $.ajax({
+            url:"updateRep.do",
+            type:"post",
+            data:{"id":obj},
+            dataType:"json",
+            success:function(data){
+                $("#rname").val(data.r_name);
+                $("#address").val(data.r_address);
+                $("#rtype").val(data.r_type);
+                $("#rarea").val(data.R_area);
+                $("#repertoryAddress2").html(data.desc_address);
+                $('#myModa2').modal('show');
+            }
+        });
+    }
+
+</script>
+
+
+
+</html>

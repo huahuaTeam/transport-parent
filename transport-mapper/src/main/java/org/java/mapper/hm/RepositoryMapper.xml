@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.java.mapper.hm.RepositoryMapper">
+
+        <!--查询出所有的仓库-->
+        <select id="getAllResponse" resultType="m">
+              SELECT * FROM tran_Response WHERE STATUS=0
+        </select>
+
+        <!--按姓名查询-->
+        <select id="findByName" resultType="m">
+            SELECT * FROM tran_Response WHERE r_name LIKE	 '%${rname}%'
+        </select>
+
+        <!--新增仓库-->
+        <insert id="addRepository" parameterType="m">
+            INSERT INTO tran_Response VALUES(UUID(),#{rname},#{rarea},#{rtype},#{address},now(),#{userId},#{mapId},0,#{repertoryAddress})
+        </insert>
+
+        <!--修改仓库的状态-->
+        <update id="updStatus">
+            UPDATE tran_Response SET STATUS='${status}' where r_id ='${rid}'
+        </update>
+
+        <select id="findByidRep" resultType="m">
+              SELECT user_name,r.* FROM tran_Response r, tran_user u
+              WHERE r.r_admin=u.user_id AND r.r_id ='${rid}'
+        </select>
+
+
+</mapper>
