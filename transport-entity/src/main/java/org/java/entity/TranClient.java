@@ -100,4 +100,20 @@ public class TranClient {
     public void setClientAddress(String clientAddress) {
         this.clientAddress = clientAddress == null ? null : clientAddress.trim();
     }
+
+    @Override
+    public String toString() {
+        return "TranClient{" +
+                "clientId='" + clientId + '\'' +
+                ", clientPwd='" + clientPwd + '\'' +
+                ", clientCom='" + clientCom + '\'' +
+                ", clientShort='" + clientShort + '\'' +
+                ", clientType='" + clientType + '\'' +
+                ", clientName='" + clientName + '\'' +
+                ", clientTel='" + clientTel + '\'' +
+                ", clientCredit=" + clientCredit +
+                ", clientEmail='" + clientEmail + '\'' +
+                ", clientAddress='" + clientAddress + '\'' +
+                '}';
+    }
 }

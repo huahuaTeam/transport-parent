@@ -4,13 +4,36 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-    <link rel="stylesheet" href="./js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
-    <script src="./js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-    <script src="./js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
-    <script src="./js/jquery-1.8.3.min.js"></script>
+    <link rel="stylesheet" href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script src="/js/jquery-1.8.3.min.js"></script>
 </head>
 <body>
     <h3>客户资料</h3>
-    <a th:href="@{/client/add.do}" style="text-align: right">添加客户</a>
+    <div style="text-align: right"> <a th:href="@{/client/add.do}" >添加客户</a></div>
+
+    <table class="table table-striped" align="center">
+        <thead>
+            <tr>
+                <th>客户编号</th>
+                <th>客户简称</th>
+                <th>行业</th>
+                <th>联系人</th>
+                <th>信用额度</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr th:each="l,var:${list}">
+            <td th:text="No000+${var.count}"></td>
+            <td th:text="${l.client_short}"></td>
+            <td th:text="${l.client_type}"></td>
+            <td th:text="${l.client_name}"></td>
+            <td th:text="${l.client_credit}"></td>
+            <td>操作</td>
+        </tr>
+        </tbody>
+    </table>
 </body>
 </html>

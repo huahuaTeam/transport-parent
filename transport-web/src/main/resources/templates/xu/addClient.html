@@ -18,7 +18,7 @@
 <body>
     <h3>添加客户</h3>
 
-    <form th:action="@{/clien/addClient.do}" method="post">
+    <form th:action="@{/client/addClient.do}" method="post">
         <table class="table table-striped" align="center">
             <thead>
             <tr>
@@ -31,34 +31,39 @@
                 <td>客户编号：</td>
                 <td><input type="text" name="" placeholder="客户编号由系统制动生成" readonly></td>
                 <td>联系人：</td>
-                <td><input type="text" name="" placeholder="联系人"></td>
+                <td><input type="text" name="clientName" placeholder="联系人"></td>
             </tr>
             <tr>
                 <td>密码：</td>
-                <td><input type="text" name="" placeholder="密码" ></td>
+                <td><input type="text" name="clientPwd" placeholder="密码" ></td>
                 <td>电话：</td>
-                <td><input type="text" name="" placeholder="电话"></td>
+                <td><input type="text" name="clientTel" placeholder="电话"></td>
             </tr>
             <tr>
                 <td>客户名称：</td>
-                <td><input type="text" name="" placeholder="客户名称" ></td>
+                <td><input type="text" name="clientCom" placeholder="客户名称" ></td>
                 <td>信用额度（1-100）：</td>
-                <td><input type="text" name="" placeholder="信用额度"></td>
+                <td><input type="text" name="clientCredit" placeholder="信用额度"></td>
             </tr>
             <tr>
                 <td>客户简称：</td>
-                <td><input type="text" name="" placeholder="客户简称" ></td>
+                <td><input type="text" name="clientShort" placeholder="客户简称" ></td>
                 <td>电子邮箱：</td>
-                <td><input type="text" name="" placeholder="电子邮箱"></td>
+                <td><input type="text" name="clientEmail" placeholder="电子邮箱"></td>
             </tr>
             <tr>
                 <td>行业：</td>
-                <td><input type="text" name="" placeholder="行业" ></td>
+                <td><input type="text" name="clientType" placeholder="行业" ></td>
                 <td>地址：</td>
-                <td><input type="text" name="" placeholder="地址"></td>
+                <td><input type="text" name="clientAddress" placeholder="地址"></td>
+            </tr>
+            <tr>
+                <td colspan="4" align="center">
+                    <button type="submit" class="btn btn-info">提交</button>
+                    <button type="button" class="btn btn-info">返回</button>
+                </td>
             </tr>
             </tbody>
-
         </table>
     </form>
 </body>

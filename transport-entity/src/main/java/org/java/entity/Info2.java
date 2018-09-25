@@ -1,4 +1,5 @@
 package org.java.entity;
+
 public class Info2 {
 	private Integer id;
 	private String name;
