@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.java.mapper.zwz.zwzshowmapper" >
+
+    <select id="selectforpurchase" resultType="java.util.HashMap">
+      SELECT t.purchase_id id,t.purchase_endTime endTime,u.user_name name FROM tran_purchase t ,tran_user u WHERE t.user_id=u.user_id
+    </select>
+
+    <select id="selectpurchaseorder" resultType="java.util.HashMap">
+       SELECT p.pod_id id,s.supplier_name name,p.pod_beginTime beginTime,u.user_name uname,p.pod_type type  FROM  tran_purchase_order p,tran_supplier s,tran_user u WHERE p.supplier_id=s.supplier_id AND u.user_id=p.user_id
+    </select>
+
+    <select id="selectenterstorage" resultType="java.util.HashMap">
+    SELECT r.input_id id,r.input_date date,u.user_name name,r.input_type type FROM  tran_input_Response r ,tran_user u WHERE u.user_id=r.user_id
+    </select>
+
+    <select id="selectoutstorage" resultType="java.util.HashMap">
+    SELECT o.out_id id,o.out_time time,u.user_name name,o.out_type type FROM   tran_out_Response o ,tran_user u WHERE u.user_id=o.user_id
+    </select>
+
+    <select id="selectdispatching" resultType="java.util.HashMap">
+   SELECT g.deliver_id id,u.user_name name,g.deliver_date date,g.Deliver_type type
+   FROM tran_deliver_goods g,tran_user u WHERE g.user_id=u.user_id
+    </select>
+
+    <select id="selectclientorder" resultType="java.util.HashMap">
+         SELECT o.order_id id,o.order_name name,o.order_in_time time,o.order_type type,o.order_pay pay,o.order_state state
+          FROM tran_deliver_goods g ,tran_order o,tran_user u WHERE g.order_id=o.order_id AND g.user_id=u.user_id
+
+    </select>
+
+</mapper>

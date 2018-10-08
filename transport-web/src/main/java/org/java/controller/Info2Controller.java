@@ -31,11 +31,8 @@ public class Info2Controller {
 
 	@RequestMapping("login")
 	public String login(String login,String pwd,HttpSession session,Model model){
-        System.out.println(login+"     "+pwd);
         Map<String,Object> user =testService.selUser(login,pwd);
         if(user!=null){
-
-            System.out.println(user);
             session.setAttribute("user",user);
             return "index";
         }
