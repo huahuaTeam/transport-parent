@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script src="/js/jquery-1.8.3.min.js"></script>
+    <style>
+        th,td{
+            align:center;
+        }
+    </style>
+</head>
+<body>
+    <h1>网点详细信息管理</h1>
+
+    <table class="table table-striped" align="center">
+        <thead>
+        <tr>
+            <th>编号</th>
+            <th>网点名称</th>
+            <th>待揽件数</th>
+            <th>已揽件</th>
+            <th>待派送</th>
+            <th>详情</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="l,i:${list}">
+            <td>[[${i.count}]]</td>
+            <td>[[${l.b_name}]]</td>
+            <td>[[${l.notCollect}]]</td>
+            <td>[[${l.collect}]]</td>
+            <td>[[${l.delivery}]]</td>
+            <td><a th:href="@{'/branch/detailBranch.do?id='+${l.b_id}}" >查看详情</a></td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

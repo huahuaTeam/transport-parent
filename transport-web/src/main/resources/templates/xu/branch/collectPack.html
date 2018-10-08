@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script src="/js/jquery-1.8.3.min.js"></script>
+    <style>
+        th{
+            text-align:center;
+        }
+</style>
+</head>
+<body>
+    <table class="table table-striped" align="center">
+        <tbody id="mydiv">
+        <tr>
+            <th>扫描订单：</th>
+            <td><input name="orderId" type="text"></td>
+            <th></th>
+            <td></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+<script>
+    $(function () {
+        $("[name=orderId]").change(function () {
+            $.ajax({
+                type:"post",
+                url:"/branch/getOrder.do",
+                contentType:"application/json;charset=utf-8",
+                data: $("[name=orderId]").val(),
+                success:function (data) {
+                    var str ="<tr>\n" +
+                        "            <th>订单编号：</th>\n" +
+                        "            <td>"+data.orderId+"</td>\n" +
+                        "            <th>寄件时间</th>\n" +
+                        "            <td>"+data.orderInTime+"</td>\n" +
+                        "        </tr>";
+                    str+="<tr>\n" +
+                        "            <th>寄件人：</th>\n" +
+                        "            <td>"+data.orderName+"</td>\n" +
+                        "            <th>寄件地址</th>\n" +
+                        "            <td>"+data.orderPlace+"</td>\n" +
+                        "        </tr>";
+                    str+="<tr>\n" +
+                        "            <th>寄件电话：</th>\n" +
+                        "            <td>"+data.orderTel+"</td>\n" +
+                        "            <th>寄件类型：</th>\n" +
+                        "            <td>"+data.orderType+"</td>\n" +
+                        "        </tr>";
+                    str+="<tr>\n" +
+                        "            <th>收件人姓名：</th>\n" +
+                        "            <td>"+data.orderReceiveName+"</td>\n" +
+                        "            <th>收件人地址：</th>\n" +
+                        "            <td>"+data.orderReceivePlace+"</td>\n" +
+                        "        </tr>";
+                    str+="<tr>\n" +
+                        "            <th>收件人电话：</th>\n" +
+                        "            <td>"+data.orderReceiveTel+"</td>\n" +
+                        "            <th>收件时间：</th>\n" +
+                        "            <td>"+data.orderOutTime+"</td>\n" +
+                        "        </tr>";
+                    str+="<tr>\n" +
+                        "            <th>包装要求：</th>\n" +
+                        "            <td>"+data.orderPack+"</td>\n" +
+                        "            <th>运输要求：</th>\n" +
+                        "            <td>"+data.orderCar+"</td>\n" +
+                        "        </tr>";
+                    str+="<tr>\n" +
+                        "            <th>备注：</th>\n" +
+                        "            <td>"+data.orderRemark+"</td>\n" +
+                        "            <th>订单金额：</th>\n" +
+                        "            <td>"+data.orderMonry+"</td>\n" +
+                        "        </tr>";
+                    str+="<tr>\n" +
+                        "            <th>货物数量：</th>\n" +
+                        "            <td>"+data.orderCount+"</td>\n" +
+                        "            <th>运输要求：</th>\n" +
+                        "            <td>"+data.orderCar+"</td>\n" +
+                        "        </tr>";
+                    str+="<tr>\n" +
+                        "            <th colspan='4'>" +
+                        "            <a class='btn btn-info' href=\"/branch/updateOrder.do?id="+data.orderId+"\">确认揽件</a>" +
+                        "            <a class='btn bt7111100004" +
+                        "7111100004" +
+                        "7111100004" +
+                        "n-info'>取消</a></th>\n" +
+                        "        </tr>";
+
+                    $("#mydiv").append(str);
+                },error:function () {
+                    alert("ajax出错");
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script src="/js/jquery-1.8.3.min.js"></script>
+    <style>
+        th{
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+    <h1>[[${branch.bName}]]</h1>
+
+    <a class="btn btn-default btn-toastr" href="/branch/getCollectPack.do" data-position="top-full-width">开始揽件</a>
+    <a class="btn btn-default btn-toastr" href="" data-position="top-full-width">待派送件</a>
+    <a class="btn btn-default btn-toastr" href="" data-position="bottom-right">已派送件</a>
+    <table class="table table-striped" align="center">
+
+        <tbody>
+        <tr>
+            <th>网点负责人</th>
+            <td>[[${branch.bPeoson}]]</td>
+            <th>网点类型</th>
+            <td>[[${branch.bType}]]</td>
+        </tr>
+        <tr>
+            <th>网点地址</th>
+            <td>[[${branch.bPlace}]]</td>
+            <th>网点电话</th>
+            <td>[[${branch.bPhone}]]</td>
+        </tr>
+        <tr>
+            <th>网点联系人电话</th>
+            <td>[[${branch.bTelone}]]</td>
+            <th>网点联系人电话</th>
+            <td>[[${branch.bTeltwo}]]</td>
+        </tr>
+        <tr>
+            <th>待揽件数</th>
+            <td>[[${map.notCollect}]]</td>
+            <th>已揽件</th>
+            <td>[[${map.collect}]]</td>
+        </tr>
+        <tr>
+            <th>待派送</th>
+            <td>[[${map.delivery}]]</td>
+            <th>已派送</th>
+            <td>[[${map.over}]]</td>
+        </tr>
+        <tr>
+            <th>退回件</th>
+            <td>[[${map.back}]]</td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+<span style="color: blue;" onclick="history.go(-1)">返回上一级</span>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script src="/js/jquery-1.8.3.min.js"></script>
+
+    <style>
+        td,th{
+            align:center;
+        }
+    </style>
+</head>
+<body>
+    <table class="table table-striped" align="center">
+        <thead>
+        <tr>
+            <th>编号</th>
+            <th>网点名称</th>
+            <th>网点电话</th>
+            <th>网点类型</th>
+            <th>网点地址</th>
+            <th>网点负责人</th>
+            <th>负责人电话</th>
+            <th>负责人电话2</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="l,var:${list}">
+            <td th:text="${var.count}"></td>
+            <td th:text="${l.bName}"></td>
+            <td th:text="${l.bPhone}"></td>
+            <td th:text="${l.bType}"></td>
+            <td th:text="${l.bPlace}"></td>
+            <td th:text="${l.bPeoson}"></td>
+            <td th:text="${l.bTelone}"></td>
+            <td th:text="${l.bTeltwo}"></td>
+            <td><a href="">查看详细</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/branch/mapBranch.do">查看所有网点</a>
+</body>
+</html>

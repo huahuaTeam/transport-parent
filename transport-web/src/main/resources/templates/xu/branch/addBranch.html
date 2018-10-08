@@ -1,30 +1,119 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <title>Title</title>
     <link rel="stylesheet" href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
     <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script src="/js/jquery-1.8.3.min.js"></script>
+    <script src="/xu/dist/js/city-picker.data.js"></script>
+    <script src="/xu/dist/js/city-picker.js"></script>
+    <link rel="stylesheet" type="text/css" href="../xu/dist/css/city-picker.css"/>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=yljnF2HXwEZULq3uigBX7GC9v51F1Y5V"></script>
+    <style type="text/css">
+        body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+
+        tr,th{
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <h1>添加网点</h1>
+    <form th:action="@{/branch/addBranchs.do}" method="post">
     <table class="table table-striped" align="center">
 
         <tbody>
         <tr>
             <td>网点名称</td>
-            <td><input type="text" name=""></td>
+            <td><input type="text" name="bName" size="50"></td>
             <td>网点电话</td>
-            <td><input type="text" name=""></td>
+            <td><input type="text" name="bPhone" size="50"></td>
         </tr>
         <tr>
             <td>网点类型</td>
-            <td><input type="text" name=""></td>
-            <td>网点省份</td>
-            <td><input type="text" name=""></td>
+            <td><input type="text" name="bType" size="50"></td>
+            <td>网点地区</td>
+            <td align="center">
+                <div style="position: relative;">
+                    <input name="place" readonly type="text" data-toggle="city-picker" size="50">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>网点负责人</td>
+            <td><input type="text" name="bPeoson" size="50"></td>
+            <td>网点详细地址</td>
+            <td><input type="text" name="placeDetail" size="50"></td>
+        </tr>
+        <tr>
+            <td>负责人电话</td>
+            <td><input type="text" name="bTelone" size="50"></td>
+            <td>负责人电话2</td>
+            <td><input type="text" name="bTeltwo" size="50"></td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <input type="hidden" name="bX">
+                <input type="hidden" name="bY">
+                <input type="hidden" name="bPlace">
+                <button class="btn btn-info" type="submit">提交</button>
+                <button class="btn btn-info" type="button">返回</button>
+            </td>
+        </tr>
+        <tr>
+            <td th:if="${info}!=null" colspan="4">
+                <span style="color:green" th:text="${info}"></span>
+            </td>
         </tr>
         </tbody>
     </table>
+</form>
+    <div id="allmap"></div>
+    <script th:inline="javascript">
+        $(function () {
+            $("[name=placeDetail]").blur(function () {
+                // 百度地图API功能
+                var map = new BMap.Map("allmap");
+                var point = new BMap.Point(116.331398,39.897445);
+                map.centerAndZoom(point,12);
+                // 创建地址解析器实例
+                var myGeo = new BMap.Geocoder();
+                // 将地址解析结果显示在地图上,并调整地图视野
+                myGeo.getPoint($("[name=place]").val()+$("[name=placeDetail]").val(), function(point){
+                    if (point) {
+                        map.centerAndZoom(point, 16);
+                        map.addOverlay(new BMap.Marker(point));
+                        //alert('您的位置：'+point.lng+','+point.lat);
+                        $("[name=bX]").val(point.lng);//经度
+                        $("[name=bY]").val(point.lat);//纬度
+                        $("[name=bPlace]").val($("[name=place]").val()+$("[name=placeDetail]").val());//纬度
+                    }else{
+                        alert("您选择地址没有解析到结果!");
+                    }
+                }, "武汉市")
+                setTimeout(function(){
+                    map.setZoom(14);
+                }, 2000);
+            });
+        })
+        // 百度地图API功能
+        var map = new BMap.Map("allmap");
+        var point = new BMap.Point(116.331398,39.897445);
+        map.centerAndZoom(point,12);
+        // 创建地址解析器实例
+        var myGeo = new BMap.Geocoder();
+        // 将地址解析结果显示在地图上,并调整地图视野
+        myGeo.getPoint($("[name=place]").val()+$("[name=placeDetail]").val(), function(point){
+            if (point) {
+                map.centerAndZoom(point, 16);
+                map.addOverlay(new BMap.Marker(point));
+            }else{
+                alert("您选择地址没有解析到结果!");
+            }
+        }, "武汉市")
+    </script>
 </body>
 </html>
