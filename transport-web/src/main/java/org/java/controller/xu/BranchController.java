@@ -25,6 +25,40 @@ public class BranchController {
     @Autowired
     private OrderService orderService;
 
+    @RequestMapping("/selBranchPeople")
+    public String selBranchPeople(String bId,Model model){
+        TranBranch branch = branchService.oneBranch(bId);
+        List<Map<String, Object>> people = branchService.branchPeopleById(bId);
+        int count = branchService.selBranchPeopleCount(bId);
+        model.addAttribute("branch",branch);
+        model.addAttribute("people",people);
+        model.addAttribute("count",count);
+        return "/xu/branch/selBranchPeople";
+    }
+
+    //将人员进行分配
+    @RequestMapping("/allocationPeople2")
+    public String allocationPeople(String userId,String branchId){
+        branchService.updateBid(branchId,userId);
+        return "redirect:/branch/allocationPeople.do";
+    }
+
+    //分配网点员工页面
+    @RequestMapping("/allocationPeople")
+    public String allocationPeople(Model model){
+        List<Map<String, Object>> list = branchService.branchPeople();
+        List<Map<String, Object>> notList = branchService.branchNotPeople();
+        Integer peopleCount = branchService.allocationPeopleCount();
+        List<Map<String, Object>> people = branchService.allocationPeople();
+        List<TranBranch> branch = branchService.selALL();
+        model.addAttribute("peopleCount",peopleCount);
+        model.addAttribute("list",list);
+        model.addAttribute("notList",notList);
+        model.addAttribute("people",people);
+        model.addAttribute("branch",branch);
+        return "/xu/branch/branchPeople";
+    }
+
     @RequestMapping("/updateOrder")
     public String updateOrder(String id){
         TranOrder order =new TranOrder();

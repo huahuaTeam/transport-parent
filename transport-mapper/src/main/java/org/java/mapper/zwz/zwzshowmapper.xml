@@ -24,8 +24,8 @@
     </select>
 
     <select id="selectclientorder" resultType="java.util.HashMap">
-         SELECT o.order_id id,o.order_name name,o.order_in_time time,o.order_type type,o.order_pay pay,o.order_state state
-          FROM tran_deliver_goods g ,tran_order o,tran_user u WHERE g.order_id=o.order_id AND g.user_id=u.user_id
+          SELECT o.order_id id,o.order_name `name`,o.order_in_time `time`,o.order_type `type`,o.order_pay pay,o.order_status state
+              FROM tran_deliver_goods g ,tran_order o,tran_user u WHERE g.order_id=o.order_id AND g.user_id=u.user_id
 
     </select>
 

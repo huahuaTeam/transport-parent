@@ -39,7 +39,7 @@
             <td th:text="${l.bPeoson}"></td>
             <td th:text="${l.bTelone}"></td>
             <td th:text="${l.bTeltwo}"></td>
-            <td><a href="">查看详细</a></td>
+            <td><a th:href="@{'/branch/branchDetail.do?bId='+${l.bId}}">查看详细</a></td>
         </tr>
         </tbody>
     </table>

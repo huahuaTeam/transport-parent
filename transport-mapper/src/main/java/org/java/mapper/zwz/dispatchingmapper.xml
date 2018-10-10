@@ -23,7 +23,7 @@
     </update>
 
     <select id="selectorder" resultType="java.util.HashMap">
-        SELECT o.order_id oid FROM tran_order o WHERE o.order_state IN(0,3) AND o.order_id NOT IN(SELECT  g.order_id  FROM tran_deliver_goods g) AND o.b_id=#{bid};
+        SELECT o.order_id oid FROM tran_order o WHERE o.order_status IN(0,3) AND o.order_id NOT IN(SELECT  g.order_id  FROM tran_deliver_goods g) AND o.b_id=#{bid};
     </select>
 
     <select id="seleteuser" resultType="java.util.HashMap">
@@ -33,11 +33,11 @@
 
 
     <update id="updateorder">
-        UPDATE  tran_order SET  order_state=#{type}  WHERE   order_id=(SELECT order_id FROM  tran_deliver_goods WHERE deliver_id=#{id})
+        UPDATE  tran_order SET  order_status=#{type}  WHERE   order_id=(SELECT order_id FROM  tran_deliver_goods WHERE deliver_id=#{id})
     </update>
 
     <select id="getorderparticularsno" resultType="java.util.HashMap" >
-        SELECT g.deliver_id id,g.Deliver_count `count`, o.order_state stype ,o.order_name  name2 ,o.order_tel tel2 ,o.order_place place2
+        SELECT g.deliver_id id,g.Deliver_count `count`, o.order_status stype ,o.order_name  name2 ,o.order_tel tel2 ,o.order_place place2
         ,o.order_receive_name  ordername,o.order_receive_tel tel,o.order_receive_place place,o.order_pay pay,o.order_pay_flag flag,o.order_monry monry,o.order_remark remark
         ,u.user_name uname
         FROM tran_deliver_goods g ,tran_user u,tran_order o
@@ -46,7 +46,7 @@
     </select>
 
     <select id="getnoorder" resultType="java.util.HashMap" >
-        SELECT g.deliver_id id,g.Deliver_count `count`, o.order_state stype ,o.order_name  name2 ,o.order_tel tel2 ,o.order_place place2
+        SELECT g.deliver_id id,g.Deliver_count `count`, o.order_status stype ,o.order_name  name2 ,o.order_tel tel2 ,o.order_place place2
         ,o.order_receive_name  ordername,o.order_receive_tel tel,o.order_receive_place place,o.order_pay pay,o.order_pay_flag flag,o.order_monry monry,o.order_remark remark
         ,u.user_name uname
         FROM tran_deliver_goods g ,tran_user u,tran_order o
@@ -66,7 +66,7 @@
 
 
     <select id="getorderparticulars" resultType="java.util.HashMap" >
-        SELECT g.deliver_id id, o.order_state stype ,o.order_name  name2 ,o.order_tel tel2 ,o.order_place place2
+        SELECT g.deliver_id id, o.order_status stype ,o.order_name  name2 ,o.order_tel tel2 ,o.order_place place2
         ,o.order_receive_name  ordername,o.order_receive_tel tel,o.order_receive_place place,o.order_pay pay,o.order_pay_flag flag,o.order_monry monry,o.order_remark remark
         ,u.user_name uname
         FROM tran_deliver_goods g ,tran_user u,tran_order o
@@ -75,7 +75,7 @@
     </select>
 
     <select id="getorder" resultType="java.util.HashMap" >
-     SELECT g.deliver_id id, o.order_state stype ,o.order_name  name2 ,o.order_tel tel2 ,o.order_place place2
+     SELECT g.deliver_id id, o.order_status stype ,o.order_name  name2 ,o.order_tel tel2 ,o.order_place place2
         ,o.order_receive_name  ordername,o.order_receive_tel tel,o.order_receive_place place,o.order_pay pay,o.order_pay_flag flag,o.order_monry monry,o.order_remark remark
         ,u.user_name uname
         FROM tran_deliver_goods g ,tran_user u,tran_order o

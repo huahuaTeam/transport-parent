@@ -18,6 +18,41 @@ public class BranchServiceImpl implements BranchService {
     private TranBranchMapper mapper;
 
     @Override
+    public int selBranchPeopleCount(String bId) {
+        return mapper.selBranchPeopleCount(bId);
+    }
+
+    @Override
+    public List<Map<String, Object>> branchPeopleById(String bId) {
+        return mapper.branchPeopleById(bId);
+    }
+
+    @Override
+    public Integer allocationPeopleCount() {
+        return mapper.allocationPeopleCount();
+    }
+
+    @Override
+    public void updateBid(String bId, String userId) {
+        mapper.updateBid(bId,userId);
+    }
+
+    @Override
+    public List<Map<String, Object>> branchPeople() {
+        return mapper.branchPeople();
+    }
+
+    @Override
+    public List<Map<String, Object>> branchNotPeople() {
+        return mapper.branchNotPeople();
+    }
+
+    @Override
+    public List<Map<String, Object>> allocationPeople() {
+        return mapper.allocationPeople();
+    }
+
+    @Override
     public Map<String, Object> branchDetailById(String id) {
         return mapper.branchDetailById(id);
     }
@@ -34,7 +69,6 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public List<TranBranch> likeBranch(String place) {
-        System.out.println(">>>>>>>>>>>>>>>>>>>>"+mapper.likeBranch(place));
         return mapper.likeBranch(place);
     }
 

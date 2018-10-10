@@ -2,6 +2,7 @@ package org.java.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.java.service.zwzshowService;
 import javax.servlet.http.HttpSession;
@@ -58,10 +59,11 @@ public class ZwzshowContrller {
     }
     //    客户订单查询
     @RequestMapping("/clientorder")
-    public String clientorder(HttpSession session)
+    public String clientorder(Model model)
     {
         List<Map<String,Object>> list=service.selectclientorder();
-        session.setAttribute("clientorderlist",list);
+        System.out.println(list);
+        model.addAttribute("list",list);
 
         return "/zwz/show/clientorder";
     }

@@ -16,6 +16,50 @@
     <result column="b_y" property="bY" jdbcType="DOUBLE" />
   </resultMap>
 
+  <select id="selBranchPeopleCount" resultType="int">
+    SELECT COUNT(*) count  FROM tran_user WHERE b_id =#{bId}
+  </select>
+  
+  <select id="branchPeopleById" resultType="m">
+	 SELECT t.user_name ,COUNT(*) count
+      FROM (SELECT user_id,user_name
+          FROM  tran_user u ,tran_branch b
+          WHERE b.b_id=u.b_id   AND b.b_id=#{bId}) t
+      LEFT JOIN (tran_deliver_goods g) ON (t.user_id=g.user_id)
+      GROUP BY t.user_name
+
+  </select>
+
+  <select id="branchNotPeople" resultType="m">
+      SELECT b_id,b_name FROM
+  (SELECT b.b_id,b.b_name,t.uid FROM tran_branch b
+  LEFT JOIN (SELECT u.user_id uid,b_id FROM tran_user u,tran_user_role ur WHERE ur.user_id=u.user_id AND role_id =8 AND u.b_id IS NOT NULL) t
+  ON (t.b_id =b.b_id)) t
+  WHERE uid IS NULL
+  GROUP BY b_name
+  </select>
+  
+  <update id="updateBid">
+    UPDATE tran_user SET b_id =#{bId} where user_id=#{userId}
+  </update>
+  
+  <select id="branchPeople" resultType="m">
+    SELECT b_id,b_name,COUNT(*) count FROM
+    (SELECT b.b_id,b.b_name,t.uid FROM tran_branch b
+    LEFT JOIN (SELECT u.user_id uid,b_id FROM tran_user u,tran_user_role ur WHERE ur.user_id=u.user_id AND role_id =8 AND u.b_id IS NOT NULL) t
+    ON (t.b_id =b.b_id)) t
+    WHERE uid IS NOT NULL
+    GROUP BY b_name
+  </select>
+
+  <select id="allocationPeopleCount" resultType="int">
+    SELECT COUNT(*) FROM tran_user u,tran_user_role ur WHERE ur.user_id=u.user_id AND role_id =8 AND u.b_id IS NULL;
+  </select>
+  
+  <select id="allocationPeople" resultType="m">
+    SELECT * FROM tran_user u,tran_user_role ur WHERE ur.user_id=u.user_id AND role_id =8 AND u.b_id IS NULL;
+  </select>
+
   <select id="oneBranch" resultMap="BaseResultMap">
       SELECT * from tran_branch where b_id=#{id};
   </select>
@@ -25,7 +69,7 @@
     ,b_name
     ,(SELECT COUNT(*) FROM tran_order o WHERE o.b_id = b.b_id AND order_status =4) notCollect
     ,(SELECT COUNT(*) FROM tran_order o WHERE o.b_id = b.b_id AND order_status =5) collect
-    ,(SELECT COUNT(*) FROM tran_order o WHERE o.b_id = b.b_id AND order_status =1) delivery
+    ,(SELECT COUNT(*) FROM tran_order o WHERE o.b_id = b.b_id AND order_status =0) delivery
     FROM tran_branch b;
 
   </select>
@@ -35,8 +79,8 @@
     ,b_name
     ,(SELECT COUNT(*) FROM tran_order o WHERE o.b_id = b.b_id AND order_status =4) notCollect
     ,(SELECT COUNT(*) FROM tran_order o WHERE o.b_id = b.b_id AND order_status =5) collect
-    ,(SELECT COUNT(*) FROM tran_order o WHERE o.b_id = b.b_id AND order_status =1) delivery
-    ,(SELECT COUNT(*) FROM tran_order o WHERE o.b_id = b.b_id AND order_status =2) over
+    ,(SELECT COUNT(*) FROM tran_order o WHERE o.b_id = b.b_id AND order_status =0) delivery
+    ,(SELECT COUNT(*) FROM tran_order o WHERE o.b_id = b.b_id AND order_status =1) over
     ,(SELECT COUNT(*) FROM tran_order o WHERE o.b_id = b.b_id AND order_status =3) back
     FROM tran_branch b where b_id=#{id};
 

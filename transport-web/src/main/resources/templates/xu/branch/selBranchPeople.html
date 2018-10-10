@@ -1,10 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"  lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <link rel="stylesheet" href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 </head>
 <body>
-$END$
+<h1>查看网点详情</h1>
+    <table class="table table-striped" align="center">
+        <thead>
+        <tr>
+            <th>网点名称</th>
+            <th>[[${branch.bName}]]</th>
+            <th>网点地址</th>
+            <th>[[${branch.bPlace}]]</th>
+        </tr>
+        <tr>
+            <th>网点负责人</th>
+            <th>[[${branch.bPeoson}]]</th>
+            <th>网点电话</th>
+            <th>[[${branch.bPhone}]]</th>
+        </tr>
+        <tr>
+            <th>网点员工人数</th>
+            <th>[[${count}]]</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+    </table>
+    <br>
+    <h3>员工详情</h3>
+    <table class="table table-striped" align="center">
+        <thead>
+        <tr>
+            <th>员工编号</th>
+            <th>员工名称</th>
+            <th>派件个数</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p,v:${people}">
+            <td>[[${v.count}]]</td>
+            <td>[[${p.user_name}]]</td>
+            <td>[[${p.count}]]</td>
+            <td><a>查看详情</a></td>
+        </tr>
+        </tbody>
+    </table>
 </body>
 </html>

@@ -1,10 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <link rel="stylesheet" href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <style>
+        th,td{
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-$END$
+    <h1>网点的人员信息</h1>
+    <table class="table table-striped" align="center">
+        <thead>
+        <tr>
+            <th>网点名称</th>
+            <th>网点员工人数</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="l:${list}">
+            <td th:text="${l.b_name}"></td>
+            <td th:text="${l.count}"></td>
+            <td><a th:href="@{'/branch/selBranchPeople.do?bId='+${l.b_id}}">查看人员</a></td>
+        </tr>
+        <tr th:each="l:${notList}">
+            <td>[[${l.b_name}]]</td>
+            <td>0</td>
+            <td>暂无人员查看</td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <div style="float: left;width: 1400px">
+        <span th:if="${peopleCount != 0}">
+            <p><span style="color: red ;font-size: 16px;font-weight: bold;" >未分配人数：</span>[[${peopleCount}]]</p>
+        </span>
+    </div>
+
+    <button class="btn btn-info"style="text-align: right" name="people">进行员工分配</button>
+    <!-- 模态框（Modal）  查看仓库--->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel3">
+                        员工分配
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="ibox-content" style="width: 450px">
+
+                            <table class="table table-striped" align="center">
+                                <thead>
+
+                                </thead>
+                                <tbody>
+                                    <tr th:each="l:${people}">
+                                        <form class="form-horizontal m-t" method="post" id="commentForms3" th:action="@{/branch/allocationPeople2.do}" style="width: 500px;">
+                                            <td>
+                                                <input type="hidden" th:value="${l.user_id}" name="userId">
+                                                [[${l.user_name}]]</td>
+                                            <td>
+                                                <select name="branchId">
+                                                    <option th:value="-1">请选择分配的站点</option>
+                                                    <option th:each="b:${branch}" th:value="${b.bId}">[[${b.bName}]]</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-info" type="submit">确认分配</button>
+                                            </td>
+                                        </form>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+<script>
+    $(function () {
+        $("[name=people]").click(function () {
+            $("#myModal").modal('show');
+        });
+    });
+</script>
 </body>
 </html>

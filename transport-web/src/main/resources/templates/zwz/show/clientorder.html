@@ -38,7 +38,7 @@
         </thead>
 
         <tbody >
-        <tr th:each="u : ${session.clientorderlist}">
+        <tr th:each="u : ${list}">
 
             <th th:text="${u.id}"></th>
             <th th:text="${u.name}"></th>
