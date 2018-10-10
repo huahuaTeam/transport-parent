@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<!--<link rel="stylesheet" href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css">-->
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css">-->
+<link rel="stylesheet" href="../hm/css/select2.min.css" media="all" data-turbolinks-track="reload">
+<link href="/hm/css/demo.css" rel="stylesheet"/>
+<!--static/-->
+<link rel="stylesheet" href="/js/dataTables/dataTables.bootstrap.css" type="text/css"/>
+<body>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <form class="form-inline" action="subAssFrm.do" method="post">
+                <input type="hidden" th:value="${outdescMap.outNumberId}" name="outNumberId">
+               <input type="hidden" th:value="${outdescMap.car_id}" name="carId">
+                <fieldset>
+                    <br/>
+                    <legend style="margin-top: 50px" >添加出库装卸单
+                        <div></div>
+                        <span style="font-size: 14px"> 详情信息</span>
+                    </legend>
+                    <label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 装卸重量:&nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</label> <input
+                        placeholder="Type something…" type="text" th:value="${outdescMap.width}" name="width"> <label >&nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;装卸单位:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp; &nbsp;</label> <input placeholder="Type something…" type="text" name="dw"><br>
+                    <br>
+                    <label >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 装卸数量:&nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</label> <input
+                        placeholder="Type something…" type="text" th:value="${outdescMap.coun}" name="assCount">
+                    <label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;装卸体积:&nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</label> <input
+                        placeholder="Type something…" type="text" name="assAre"><br>
+                    <label >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br>&nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 装卸开始时间:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp;</label> <input placeholder="Type something…" type="date" name="assRegTime">
+                    <label >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br>&nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;装卸结束时间:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp; &nbsp;&nbsp;</label> <input placeholder="Type something…" type="date" name="assEndTime"><br>
+                    <label >&nbsp; &nbsp; &nbsp; &nbsp; <br><br><br>&nbsp; &nbsp; &nbsp;&nbsp;<br>&nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 备注:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</label> <textarea cols="5" rows="10" name="assContent"
+                                                                                                 style="margin: 0px; width: 750px; height: 125px;"></textarea>
+                </fieldset>
+
+                <div style="margin-left: 950px;margin-top: 30px">
+                <button class="btn btn-info" type="submit">保存</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-info" type="button" onclick="history.go(-1)">关闭</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/hm/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script src="/js/dataTables/jquery.dataTables.js"></script>
+<script src="/js/dataTables/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="/hm/select2.full.js"></script>
+
+</body>
+</html>

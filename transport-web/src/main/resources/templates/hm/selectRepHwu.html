@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link rel="stylesheet" href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/js/dataTables/dataTables.bootstrap.css" type="text/css" />
+<style type="text/css">
+    .form-group label{
+        width:150px;
+        text-align: left;
+    }
+    .form-group{
+        width:500px;
+    }
+    a{
+        text-decoration: none;
+    }
+    a:hover{
+        color: red;
+        cursor:pointer; //鼠标变成手的样式
+    }
+</style>
+<body>
+<hr/>
+<h4 style="margin-left: 20px;margin-top: 20px;font-weight: bold">货物查询</h4>
+
+<a href="goa.do" class="btn btn-info" style="margin-left: 1050px;margin-top: -50px" id="createOutListId">创建</a>
+<table class="table table-striped" align="center" id="myTable">
+    <thead>
+    <tr>
+        <th>编号</th>
+        <th>货物名称</th>
+        <th>货物类型</th>
+        <th>货物数量</th>
+        <th>货物重量</th>
+        <th>货物高</th>
+        <th>仓位编号</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody id="tbody">
+
+    <tr th:each="k,v : ${#request.getAttribute('invlist')}">
+        <td th:text="${v.count}"></td>
+        <td th:text="${k.list_name}"></td>
+        <td th:text="${k.type_name}"></td>
+        <td th:text="${k.list_count}"></td>
+        <td th:text="${k.list_area}"></td>
+        <td th:text="${k.list_height}"></td>
+        <td th:text="${k.regionName}+'>'+${k.postionName}"></td>
+        <td>
+            <a href="javascript:void(0)"  th:onclick="'javascript:openDiv(\''+${k.list_id}+'\');'">更改仓位</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- 模态框（Modal）  添加仓库-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    更改仓位
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="ibox-content" style="width: 450px">
+                    <div id="ztreeDiv">
+                        <ul id="ztree" class="ztree" style="width: 80px;height: auto;padding:auto; ">
+                        </ul>
+                    </div>
+                        <div class="modal-footer">
+                            <button onclick="onCheck()" class="btn btn-info" style="margin-left: 250px;margin-top: 20px">更改</button>
+                        </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+</body>
+<script src="/hm/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/hm/zTree_v3/css/zTreeStyle/zTreeStyle.css">
+<script type="text/javascript" src="/hm/zTree_v3/js/jquery.ztree.all.min.js"></script>
+
+<script type="text/javascript">
+
+    var zTreeObj;
+
+    // 过滤函数
+    function filter(treeId, parentNode, childNodes) {
+        if (!childNodes)
+            return null;
+        for (var i = 0, l = childNodes.length; i < l; i++) {
+            childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+        }
+        return childNodes;
+    }
+
+    //
+    var setting = {
+        async: {
+            enable: true,
+            dataType: "json",
+            type: "get",
+            url: "loadRepBai.do",
+        },
+        data: {
+            key: {
+                name: "name"
+            },
+            simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "pid",
+                sonSign: true
+            }
+        }, check: {
+            enable: true,
+            chkStyle: 'checkbox',
+            //chkboxType树形  Y表示选中该checkbox  N表示取消选中checkBOX
+            //ps P表示父节点 也就是你选中子节点之后  父节点也被选中
+            //s表示子节点  表示你选中当前节点之后 其子节点也都被选中
+            chkboxType: {
+                "Y": "ps",
+                "N": "ps"
+            }
+        }
+    }
+    zTreeObj = $.fn.zTree.init($("#ztree"), setting);
+
+
+    function onCheck(e, treeId, treeNode) {
+        var treeObj = $.fn.zTree.getZTreeObj("ztree"), nodes = treeObj.getCheckedNodes(true), v = "";
+        var str="";
+        for (var i = 0; i < nodes.length; i++) {
+            str+=nodes[i].id+",";
+        }
+        var arrs = str.split(",");
+        console.log(arrs[2]);
+        $.ajax({
+            url:"updateRepCw.do",
+            type:"post",
+            data:{"id":arrs[2]},
+            success:function(data){
+                location.reload();
+            }
+        });
+    }
+
+    function openDiv(obj) {
+        $.post("savelistId.do",{"listId":obj});
+        $('#myModal').modal('show')
+    }
+</script>
+
+
+<script src="/js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script src="/js/dataTables/jquery.dataTables.js"></script>
+<script src="/js/dataTables/dataTables.bootstrap.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function (){
+        $('#myTable').DataTable({
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 项结果",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+            "lengthMenu": [10,15,20,25,30],
+            "autoWidth":true
+        });
+    });
+</script>
+<script src="/hm/dist/js/city-picker.data.js"></script>
+<script src="/hm/dist/js/city-picker.js"></script>
+<link rel="stylesheet" type="text/css" href="/hm/dist/css/city-picker.css"/>
+</html>

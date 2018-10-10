@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .form-group{
+            width: 1200px;
+            border:0px solid red;
+            float: left;
+        }
+    </style>
+</head>
+<link rel="stylesheet" href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/js/dataTables/dataTables.bootstrap.css" type="text/css" />
+<body>
+
+<form class="form-horizontal m-t" method="post" id="commentForms2" action="addAssRep.do" style="width: 500px;margin-top: 50px;margin-left: 100px">
+    <input type="hidden" id="urid" name="urid">
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">货物名称：</label>
+        <div class="col-sm-8">
+            <input type="hidden" name="rinputId" th:value="${assMap.input_id}">
+            <input type="hidden" name="order_id" th:value="${assMap.order_id}">
+            <input type="hidden" name="input_number" th:value="${assMap.input_number}">
+            <input  name="assname" minlength="2" th:value="${assMap.order_title}" type="text" id="rname1" class="form-control" readonly required="" aria-required="true">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">货物数量：</label>
+        <div class="col-sm-8 ">
+            <div style="position: relative;">
+                <!--class="form-control required"-->
+                <input  name="assnumber" minlength="2" th:value="${assMap.order_count}" type="text" id="rname" readonly class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">货物类型：</label>
+        <div class="col-sm-8" >
+                <div style="position: relative;">
+                    <!--class="form-control required"-->
+                    <input type="hidden" name="RetypeId" th:value="${assMap.type_id}"/>
+                    <input  name="asstype" minlength="2" th:value="${assMap.type_name}" type="text" id="rname3" readonly class="form-control" required="" aria-required="true">
+                </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">货物重量(kg)：</label>
+        <div class="col-sm-8" >
+            <input  name="asswidth" minlength="2" type="text" id="rarea" class="form-control" required="" th:value="${assMap.input_width}" readonly aria-required="true">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">货物高：</label>
+        <div class="col-sm-8" >
+            <input  name="assheight" minlength="2" type="text" id="hwg" class="form-control" required="" aria-required="true">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">货物公司：</label>
+        <div class="col-sm-8" >
+            <input  name="asscompany" minlength="2" type="text" id="gs" class="form-control" required="" aria-required="true">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">备注：</label>
+        <div class="col-sm-8">
+            <textarea  name="assremark" id="repertoryAddress2" class="form-control" rows="8"></textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+            关闭
+        </button>
+        <button type="submit" class="btn btn-primary">
+            保存
+        </button>
+    </div>
+    </div>
+</form>
+</body>
+<script src="/hm/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script src="/js/dataTables/jquery.dataTables.js"></script>
+<script src="/js/dataTables/dataTables.bootstrap.js"></script>
+</html>

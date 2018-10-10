@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link rel="stylesheet" href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/js/dataTables/dataTables.bootstrap.css" type="text/css" />
+<style type="text/css">
+    .form-group label{
+        width:150px;
+        text-align: left;
+    }
+    .form-group{
+        width:500px;
+    }
+    a{
+        text-decoration: none;
+    }
+    a:hover{
+        color: red;
+        cursor:pointer; //鼠标变成手的样式
+    }
+</style>
+<body>
+<hr/>
+<h4 style="margin-left: 20px;margin-top: 20px;font-weight: bold">出库装卸</h4>
+<table class="table table-striped" align="center" id="myTable">
+    <thead>
+    <tr>
+        <th>出库单号</th>
+        <th>状态</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+
+
+    <tbody id="tbody">
+
+    <tr th:each="k,v : ${#request.getAttribute('assList')}">
+        <td>
+            &nbsp;&nbsp;&nbsp;<span th:text="${k.outnumber}" style="color: white;background-color: limegreen"></span>
+        </td>
+        <td>
+            <span style="color: green;font-weight: bold">出库中</span>
+        </td>
+        <td>
+            <a th:href="@{/findAssId.do(id=${k.out_number})}">装卸</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+<script src="/hm/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script src="/js/dataTables/jquery.dataTables.js"></script>
+<script src="/js/dataTables/dataTables.bootstrap.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function (){
+        $('#myTable').DataTable({
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 项结果",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+            "lengthMenu": [10,15,20,25,30],
+            "autoWidth":true
+        });
+    });
+</script>
+<script src="/hm/dist/js/city-picker.data.js"></script>
+<script src="/hm/dist/js/city-picker.js"></script>
+<link rel="stylesheet" type="text/css" href="/hm/dist/css/city-picker.css"/>
+</html>

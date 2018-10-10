@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<!--<link rel="stylesheet" href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css">-->
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css">-->
+<link rel="stylesheet" href="../hm/css/select2.min.css" media="all" data-turbolinks-track="reload">
+<link href="/hm/css/demo.css" rel="stylesheet"/>
+<!--static/-->
+<link rel="stylesheet" href="/js/dataTables/dataTables.bootstrap.css" type="text/css"/>
+<body>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <form class="form-inline" action="subOutGarGo.do" method="post">
+                <fieldset>
+                    <br/>
+                    <br/>
+                    <legend>添加出库单<button class="btn btn-info" type="submit"  style="margin-left: 1000px;margin-top: 0px">提交</button> </legend>
+                    <label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 出库作业单号:&nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                    <input type="text" placeholder="Type something…" readonly th:value="${outNumber}">
+                    <input type="hidden" th:value="${outRelNumber}" name="outRelNumber">
+
+                    <label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;仓管员:&nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                    <input type="text" placeholder="Type something…" readonly th:value="${outUser}">
+                    <br>
+                    <label><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 出库时间:&nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</label>
+                    <input type="text" placeholder="Type something…" readonly th:value="${outRepTime}">
+                    <label><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp;车辆选择:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</label>
+                    <select id="Importance2" name="Importance2" class="form-control select2" style="width: 200px"></select>
+                </fieldset>
+
+            <br/> <span style="font-weight: bold;margin-left: 10px">货物详情</span>
+            <br/>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>
+                        编号
+                    </th>
+                    <th>
+                        货物名称
+                    </th>
+                    <th>
+                        货物类型
+                    </th>
+                    <th>
+                        货物重量
+                    </th>
+                    <th>
+                        货物数量
+                    </th>
+                    <th>
+                        出库数量
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="k,v : ${#request.getAttribute('carGoDesclist')}">
+                    <td th:text="${v.count}"></td>
+                    <td th:text="${k.list_name}"></td>
+                    <td th:text="${k.type_name}">
+                    </td>
+                    <td th:text="${k.list_area}">
+                    </td>
+                    <td th:text="${k.list_count}"></td>
+                    <td>
+                        <input type="text"  th:name="relcount+${v.index}">
+                        <input type="hidden" th:value="${k.type_id}" th:name="typeId+${v.index}">
+                        <input type="hidden" th:value="${k.list_area}" th:name="width+${v.index}">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/hm/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script src="/js/dataTables/jquery.dataTables.js"></script>
+<script src="/js/dataTables/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="/hm/select2.full.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        $.ajax({
+            url: "loadCards.do",
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $("#Importance2").select2({
+                    data: data,
+                    placeholder: '请选择'
+                });
+                $("#Importance2").select2('val','请选择')
+            }
+        });
+    });
+
+</script>
+
+</body>
+</html>

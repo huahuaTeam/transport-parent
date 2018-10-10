@@ -38,9 +38,7 @@
 
     <input type="submit" value="搜索" class="btn btn-info"/>&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="button" value="添加"  class="btn btn-info" onclick="$('#myModal').modal('show')"/>&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="button" value="查看地图"  class="btn btn-info"/>
-
-
+    <a href="goshowMap.do" class="btn btn-info">查看地图</a>
 </form>
 </div>
 <hr/>
@@ -66,7 +64,9 @@
             <td>
                 <a th:onclick="'javascript:searchrep(\''+${k.r_id}+'\');'">查看</a>&nbsp;&nbsp;&nbsp;
                 <a th:onclick="'javascript:updateRep(\''+${k.r_id}+'\');'">修改</a>&nbsp;&nbsp;&nbsp;
-                <a th:href="@{/updstatus.do(id=${k.r_id},status=1)}" onclick="return confirm('确认要删除吗?')">禁用</a>&nbsp;&nbsp;&nbsp;
+                <a th:href="@{/updstatus.do(id=${k.r_id},status=1)}" onclick="return confirm('确认要禁用吗?')">禁用</a>&nbsp;&nbsp;&nbsp;
+                <a th:onclick="'javascript:addRepYu(\''+${k.r_id}+'\');'">添加仓域</a>&nbsp;&nbsp;&nbsp;
+                <a th:onclick="'javascript:addRepWei(\''+${k.r_id}+'\');'">添加仓位</a>&nbsp;&nbsp;&nbsp;
            </td>
 
         </tr>
@@ -90,7 +90,7 @@
                     <form class="form-horizontal m-t" method="post" id="commentForms" action="addrepository.do" style="width: 500px;">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">仓库名称：</label>
-                            <div class="col-sm-8" >
+                            <div class="col-sm-8">
                                 <input  name="rname" minlength="2" type="text" width="300px" class="form-control" required="" aria-required="true">
                             </div>
                         </div>
@@ -152,22 +152,17 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel2">
-                    添加仓库
+                    修改仓库
                 </h4>
             </div>
             <div class="modal-body">
                 <div class="ibox-content" style="width: 450px">
-                    <form class="form-horizontal m-t" method="post" id="commentForms2" action="updrepository.do" style="width: 500px;">
+                    <form class="form-horizontal m-t" method="post" id="commentForms2" action="updaterepository.do" style="width: 500px;">
+                        <input type="hidden" id="urid" name="urid">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">仓库名称：</label>
                             <div class="col-sm-8" >
-
-                                <span th:if="">
-
-
-                                </span>
-
-                                <input  name="rname" minlength="2" type="text" width="300px" id="rname" class="form-control" required="" aria-required="true">
+                                <input  name="urname" minlength="2" type="text" width="300px" id="rname" class="form-control" required="" aria-required="true">
                             </div>
                         </div>
                         <div class="form-group">
@@ -175,14 +170,14 @@
                             <div class="col-sm-8 ">
                                 <div style="position: relative;">
                                     <!--class="form-control required"-->
-                                    <input name="address" readonly type="text" id="address1"  size="37" data-toggle="city-picker" value="" />
+                                    <input name="uaddress" readonly type="text" id="address1"  size="37" data-toggle="city-picker"/>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">仓库类型：</label>
-                            <div class="col-sm-8" >,
-                                <select class="form-control m-b" name="rtype" width="300px" id="rtype">
+                            <div class="col-sm-8" >
+                                <select class="form-control m-b" name="urtype" width="300px" id="rtype">
                                     <option value="-1">请选择</option>
                                     <option value="楼房库">楼房库</option>
                                     <option value="平房库">平房库</option>
@@ -194,13 +189,13 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">仓库面积：</label>
                             <div class="col-sm-8" >
-                                <input  name="rarea" minlength="2" type="text" id="rarea" class="form-control" required="" aria-required="true">
+                                <input  name="urarea" minlength="2" type="text" id="rarea" class="form-control" required="" aria-required="true">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">详细地址：</label>
                             <div class="col-sm-8">
-                                <textarea  name="repertoryAddress" id="repertoryAddress2" class="form-control"></textarea>
+                                <textarea  name="urepertoryAddress" id="repertoryAddress2" class="form-control"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -218,6 +213,173 @@
     </div><!-- /.modal -->
 </div>
 
+<!----------------------------------------------------------------------------------------------------------------->
+<!-- 模态框（Modal）  查看仓库--->
+<div class="modal fade" id="myModa3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel3">
+                    查看仓库
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="ibox-content" style="width: 450px">
+                    <form class="form-horizontal m-t" method="post" id="commentForms3" action="updaterepository.do" style="width: 500px;">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">仓库名称：</label>
+                            <div class="col-sm-8" >
+                                <input  name="urname" readonly minlength="2" type="text" width="300px" id="rname1" class="form-control" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">请选择省/市/区：</label>
+                            <div class="col-sm-8 ">
+                                <div style="position: relative;">
+                                    <!--class="form-control required"-->
+                                    <input name="uaddress" readonly type="text" id="address2"  size="37" data-toggle="city-picker"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">经纬度：</label>
+                            <div class="col-sm-8" >
+                                <input  name="urarea" readonly minlength="2" type="text" id="mapId" class="form-control" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">仓库类型：</label>
+                            <div class="col-sm-8" >
+                                <select class="form-control m-b" name="urtype" width="300px" id="rtype1" readonly>
+                                    <option value="-1">请选择</option>
+                                    <option value="楼房库">楼房库</option>
+                                    <option value="平房库">平房库</option>
+                                    <option value="立体仓库">立体仓库</option>
+                                    <option value="地下仓库">地下仓库</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">仓库面积：</label>
+                            <div class="col-sm-8" >
+                                <input  name="urarea" minlength="2" readonly type="text" id="rarea1" class="form-control" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">详细地址：</label>
+                            <div class="col-sm-8">
+                                <textarea  name="urepertoryAddress" readonly id="repertoryAddress3" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------------------>
+<!--添加仓域-->
+<!-- 模态框（Modal）  --->
+<div class="modal fade" id="myModa4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel4">
+                    添加仓域
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="ibox-content" style="width: 450px">
+                    <form class="form-horizontal m-t" method="post" id="commentForms4" action="addRepYu.do" style="width: 500px;">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">仓域名称：</label>
+                            <div class="col-sm-8" >
+                                <input  name="repyName"  minlength="2" type="text" width="300px"  class="form-control" required="" aria-required="true">
+                                <input type="hidden" name="rid" id="repid4">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">仓域面积：</label>
+                            <div class="col-sm-8" >
+                                <input  name="repyAre"  minlength="2" type="text" width="300px"  class="form-control" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                关闭
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                保存
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<!--添加仓位-->
+<!-- 模态框（Modal）  --->
+<div class="modal fade" id="myModa5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel5">
+                    添加仓位
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="ibox-content" style="width: 450px">
+                    <form class="form-horizontal m-t" method="post" id="commentForms5" action="subRepWei.do" style="width: 500px;">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">请选择仓域：</label>
+                            <div class="col-sm-8" >
+                                <select name="ryuid" id="myset" class="form-control">
+                                    <option value="-1">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">仓位名称：</label>
+                            <div class="col-sm-8" >
+                                <input  name="repwName"  minlength="2" type="text" width="300px"  class="form-control" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">仓位面积：</label>
+                            <div class="col-sm-8" >
+                                <input  name="repwAre"  minlength="2" type="text" width="300px"  class="form-control" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                关闭
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                保存
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 
 
 </body>
@@ -263,11 +425,34 @@
 <link rel="stylesheet" type="text/css" href="/hm/dist/css/city-picker.css"/>
 <script type="text/javascript">
 
+    //查看
     function searchrep(obj) {
-        alert(obj);
+        $.ajax({
+            url:"showRep.do",
+            type:"post",
+            data:{"id":obj},
+            dataType:"json",
+            success:function(data){
+                $("#rname1").val(data.r_name);
+                $("#mapId").val(data.mapId);
+                $("#rtype1").val(data.r_type);
+                $("#rarea1").val(data.R_area);
+                $("#repertoryAddress3").html(data.desc_address);
+                var arrs = data.r_address.split("/");
+                $("#address2").citypicker("reset");
+                $("#address2").citypicker("destroy");
+                $("#address2").citypicker({
+                    province: arrs[0],
+                    city: arrs[1],
+                    district: arrs[2]
+                });
+                $('#myModa3').modal('show');
+            }
+        });
     }
     
-    
+
+    //弹出修改页面
     function updateRep(obj) {
         $.ajax({
             url:"updateRep.do",
@@ -275,19 +460,51 @@
             data:{"id":obj},
             dataType:"json",
             success:function(data){
+                $("#urid").val(data.r_id)
                 $("#rname").val(data.r_name);
                 //$("#address1").val(data.r_address);
                 $("#rtype").val(data.r_type);
                 $("#rarea").val(data.R_area);
                 $("#repertoryAddress2").html(data.desc_address);
+
+                var arrs = data.r_address.split("/");
+                $("#address1").citypicker("reset");
+                $("#address1").citypicker("destroy");
+                $("#address1").citypicker({
+                    province: arrs[0],
+                    city: arrs[1],
+                    district: arrs[2]
+                });
                 $('#myModa2').modal('show');
-                alert(data.r_address);
             }
         });
     }
 
+    //打开添加仓域页面
+    function  addRepYu(obj) {
+        $("#repid4").val(obj);
+        $('#myModa4').modal('show');
+    }
+    
+    
+    //打开添加仓位页面
+    function addRepWei(obj) {
+        $.ajax({
+            url:"addRepWei.do",
+            type:"post",
+            data:{"id":obj},
+            dataType:"json",
+            success:function(data){
+                $("#myset>option:not(:eq(0))").remove();
+                $.each(data,function (i,k) {
+                    $("<option value='"+k.region_id+"'>"+k.region_name+"</option>").appendTo("#myset")
+                });
+                $('#myModa5').modal('show');
+            }
+        });
+    }
+    
+    
+    
 </script>
-
-
-
 </html>

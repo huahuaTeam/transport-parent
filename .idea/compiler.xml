@@ -13,5 +13,13 @@
         <module name="transport-web" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="transport-common" target="1.8" />
+      <module name="transport-entity" target="1.8" />
+      <module name="transport-mapper" target="1.8" />
+      <module name="transport-parent" target="1.8" />
+      <module name="transport-service" target="1.8" />
+      <module name="transport-web" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

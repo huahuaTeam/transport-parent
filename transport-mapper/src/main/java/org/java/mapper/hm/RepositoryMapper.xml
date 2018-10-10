@@ -2,30 +2,303 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.java.mapper.hm.RepositoryMapper">
 
-        <!--查询出所有的仓库-->
-        <select id="getAllResponse" resultType="m">
+    <!--查询出所有的仓库-->
+    <select id="getAllResponse" resultType="m">
               SELECT * FROM tran_Response WHERE STATUS=0
         </select>
 
-        <!--按姓名查询-->
-        <select id="findByName" resultType="m">
+    <!--按姓名查询-->
+    <select id="findByName" resultType="m">
             SELECT * FROM tran_Response WHERE r_name LIKE	 '%${rname}%'
         </select>
 
-        <!--新增仓库-->
-        <insert id="addRepository" parameterType="m">
+    <!--新增仓库-->
+    <insert id="addRepository" parameterType="m">
             INSERT INTO tran_Response VALUES(UUID(),#{rname},#{rarea},#{rtype},#{address},now(),#{userId},#{mapId},0,#{repertoryAddress})
         </insert>
 
-        <!--修改仓库的状态-->
-        <update id="updStatus">
+    <!--修改仓库的状态-->
+    <update id="updStatus">
             UPDATE tran_Response SET STATUS='${status}' where r_id ='${rid}'
         </update>
 
-        <select id="findByidRep" resultType="m">
+    <!--根据id返回单个仓库信息-->
+    <select id="findByidRep" resultType="m">
               SELECT user_name,r.* FROM tran_Response r, tran_user u
               WHERE r.r_admin=u.user_id AND r.r_id ='${rid}'
         </select>
 
+    <!--修改仓库信息-->
+    <update id="updateRepertory" parameterType="m">
+              UPDATE tran_Response SET r_name=#{urname},R_area=#{urarea},r_type=#{urtype},r_address=#{uaddress},desc_address=#{urepertoryAddress},mapId=#{mid} where r_id=#{urid}
+        </update>
+
+    <!--查询出所有被禁用的仓库-->
+    <select id="showEnabledRepsitory" resultType="m">
+              SELECT * FROM tran_Response WHERE STATUS=1
+        </select>
+
+    <!--删除仓库-->
+    <select id="delRep">
+            DELETE FROM tran_Response WHERE r_id='${rid}'
+        </select>
+
+    <!--加载所有用户-->
+    <select id="loadUser" resultType="m">
+            SELECT user_id,user_name FROM tran_user
+        </select>
+
+    <!--加载所有仓库-->
+    <select id="loadRepositorySet" resultType="m">
+            SELECT r_id,r_name,status FROM tran_Response
+        </select>
+
+    <!--加载所有入库数据-->
+    <select id="loadAssembleRep" resultType="m">
+            SELECT input_id,order_title,type_name,order_count,IF(input_status=0,'入库中','入库成功') rtype,
+            input_path,user_id,input_status FROM
+            tran_order o,tran_goods_type g,tran_input_Response r
+            WHERE o.type_id=g.type_id AND o.order_id=r.order_id
+            AND input_status=0
+        </select>
+
+    <!--根据id返回单个信息-->
+    <select id="findByIdCargo" resultType="m">
+            SELECT input_width,r.order_id,input_id,order_title,g.type_id,type_name,order_count,IF(input_status=0,'入库中','入库成功') rtype,
+            input_path,user_id,input_status,input_number FROM
+            tran_order o,tran_goods_type g,tran_input_Response r
+            WHERE o.type_id=g.type_id AND o.order_id=r.order_id
+            AND input_status=0 AND input_id ='${id}'
+        </select>
+
+    <!--物品表新增数据-->
+    <insert id="addRepList" parameterType="m">
+            INSERT INTO tran_Response_list VALUES(UUID(),#{assname},#{assnumber},#{RetypeId},#{assheight},#{asswidth},#{asscompany},'',#{assremark},#{input_number})
+        </insert>
+
+    <!--修改入库单的状态-->
+    <update id="updInputRepStatus">
+            UPDATE tran_input_Response SET input_status='${status}' WHERE order_id ='${id}'
+        </update>
+
+    <!--查询所有可以入库的订单-->
+    <select id="getAllOrder" resultType="m">
+               SELECT order_id,order_title,order_count,
+                type_name,order_remark,order_weight,o.type_id
+                FROM  tran_order o,tran_goods_type t
+                WHERE o.type_id=t.type_id AND order_isRep IS NULL
+                LIMIT #{one},#{two}
+        </select>
+
+    <!--分页需要的总数-->
+    <select id="getCount" resultType="int">
+            SELECT COUNT(*) FROM tran_order WHERE order_isRep IS NULL
+        </select>
+
+    <!--得到用户选中的货物-->
+    <select id="getOrderByArrs" resultType="m">
+        SELECT order_id,order_title,order_count,
+        type_name,order_remark,order_weight,o.type_id
+        FROM tran_order o,tran_goods_type t
+        WHERE o.type_id=t.type_id AND order_id IN
+        <foreach collection="arrs" item="tagId" index="index"
+                 open="(" close=")" separator=",">
+            '${tagId}'
+        </foreach>
+    </select>
+
+    <!--新增入库单-->
+    <insert id="addInputRep" parameterType="m">
+            INSERT INTO tran_input_Response VALUES(UUID(),'0',#{order_count},#{order_remark},NOW(),#{userId},#{order_id},#{order_weight},'0','0',#{type_id},#{repId},'0',NULL,#{number});
+        </insert>
+
+    <!--入库摆货 得到所有入库单-->
+    <select id="getInpRepBai" resultType="m">
+   SELECT input_number,UPPER(LEFT(input_number,8)) innumber,
+   (SELECT COUNT(*) FROM tran_Response_list WHERE inp_number =k.input_number
+   AND position_id ='' AND list_count!=0) number
+            FROM (SELECT input_number FROM tran_input_Response) k
+            GROUP BY input_number;
+        </select>
+
+    <!--入库摆货 得到所有入库单下的所有货物-->
+    <select id="getRepBaiHw" resultType="m">
+            SELECT list_id,inp_number,list_name,type_name,list_count,IF(position_id='','入库中','') rtype
+            FROM tran_Response_list t,tran_goods_type g
+            WHERE t.list_type=g.type_id AND position_id='' AND list_count!=0;
+        </select>
+
+    <!--查询仓域的id,名称-->
+    <select id="loadregion" resultType="m">
+         SELECT region_id,region_name,r.r_id FROM tran_response_region r,tran_Response p
+         WHERE r.r_id =p.r_id AND p.status=0
+    </select>
+
+    <!--查询所有仓位表     已摆放过货物的仓位不会查出来-->
+    <select id="loadposition" resultType="m">
+       SELECT position_id,p.region_id,position_name FROM
+         tran_response_position p ,tran_response_region r,tran_Response t
+         WHERE  r.r_id =t.r_id and p.region_id = r.region_id
+         and position_id NOT IN (SELECT position_id FROM tran_Response_list WHERE position_id !='')
+         and t.status=0
+    </select>
+
+    <!--入库-->
+    <update id="PutinStorage">
+        UPDATE tran_Response_list SET position_id='${positonId}' WHERE list_id ='${listId}'
+    </update>
+
+    <!--查询所有可以确定入库的入库单-->
+    <select id="loadRepConfirm" resultType="m">
+        SELECT input_number,UPPER(LEFT(input_number,8)) innumber,(SELECT COUNT(*) FROM tran_Response_list WHERE inp_number =k.input_number AND position_id ='') number
+        FROM (SELECT input_number,input_status FROM tran_input_Response) k
+        where k.input_status=1
+        GROUP BY input_number;
+    </select>
+
+    <!--修改订单表的状态-->
+    <update id="updateOrderStatus">
+        UPDATE tran_order SET order_isRep=1
+        WHERE order_id IN
+        <foreach collection="arrs" item="tagId" index="index"
+                 open="(" close=")" separator=",">
+            '${tagId}'
+        </foreach>
+    </update>
+
+    <!--确认入库-->
+    <update id="okRepHw">
+        UPDATE tran_input_Response SET input_status=3
+         WHERE input_number='${id}'
+    </update>
+
+    <!--出库 查询出所有可以出库的货物-->
+    <select id="getOutRespHwu" resultType="m">
+      select list_id,list_name,type_name,list_count,list_area from
+        tran_Response_list t,tran_goods_type g
+        where t.list_type=g.type_id and position_id!=''
+        and list_count!=0
+    </select>
+
+    <!--出库 货物详情-->
+    <select id="getCargoDesc" resultType="m">
+        SELECT list_id,list_name,type_id,type_name,list_count,list_area FROM
+        tran_Response_list t,tran_goods_type g
+        WHERE t.list_type=g.type_id AND position_id!=''
+        AND list_count!=0 AND list_id IN
+        <foreach collection="arrs" item="tagId" index="index"
+                 open="(" close=")" separator=",">
+            '${tagId}'
+        </foreach>
+    </select>
+
+    <!--查询所有车辆绑定下拉框-->
+    <select id="loadCars" resultType="m">
+        SELECT Tra_car_id,Tra_car_conding FROM tran_car WHERE Tra_car_static='待分配任务'
+    </select>
+
+    <!--新增出库单-->
+    <insert id="addOutRep" parameterType="m">
+        INSERT INTO tran_out_Response VALUES(UUID(),#{relCount},#{carId},NOW(),#{listId},#{userId},#{width},'0','0',#{typeId},'0',#{outRelNumber})
+    </insert>
+
+    <!--添加出库单后修改原先出库货物的数量-->
+    <update id="updateRepListCount">
+        UPDATE tran_Response_list SET list_count =list_count-#{relcount} WHERE list_id='${list_id}'
+    </update>
+
+    <!--插叙出所有可以出库装卸的出库单号-->
+    <select id="showRepAssemble" resultType="m">
+        SELECT UPPER(LEFT(out_number,8)) outnumber,out_number,out_status FROM  tran_out_Response
+        WHERE out_status=0 GROUP BY out_number
+    </select>
+
+    <select id="getOutNumberDesc" resultType="m">
+       SELECT SUM(out_width) width,SUM(out_count) coun FROM tran_out_Response
+       WHERE out_number ='${out_number}'
+    </select>
+
+    <select id="findCatIdbyNumberId" resultType="m">
+        select car_id from tran_out_Response where out_number='${out_number}'
+    </select>
+
+    <!--新增出库装卸单-->
+    <insert id="addAssRep" parameterType="m">
+        INSERT INTO tran_handling VALUES(UUID(),#{width},#{assCount},#{assAre},#{dw},#{assRegTime},#{assEndTime},#{assContent},#{userId})
+    </insert>
+
+    <!--修改出库单状态位已装卸状态-->
+    <update id="updOutRespStatus">
+        UPDATE tran_out_Response SET out_status=#{status} WHERE out_number='${out_number}'
+    </update>
+
+
+    <!--插叙出所有可以出库确认的货物-->
+    <select id="showOutRepConf" resultType="m">
+        SELECT UPPER(LEFT(out_number,8)) outnumber,out_number,out_status FROM  tran_out_Response
+        WHERE out_status=1 GROUP BY out_number
+    </select>
+
+    <!--清空仓库中数量位0的货物-->
+    <update id="claerCount">
+        UPDATE tran_Response_list SET position_id ='' WHERE list_count=0
+    </update>
+
+    <!--往配送表中添加一条数据-->
+    <insert id="addCatFreight" parameterType="m">
+        INSERT INTO `trans`.`tran_cat_freight`
+            (`Tra_cat_freight_id`,
+            `Tra_cat_id`,
+            `Tra_cat_feight_weight`,
+            `Tra_cat_freight_num`,
+            `user_id`
+            )
+            VALUES (UUID(),#{carId}, #{width},#{assCount},#{userId});
+    </insert>
+
+    <!--查询入库单详情-->
+    <select id="showInputDesc" resultType="m">
+        SELECT UPPER(LEFT(input_number,8)) innumber,input_width,order_title,type_name,order_count,input_number,input_date FROM
+        tran_order o,tran_goods_type g,tran_input_Response r
+        WHERE o.type_id=g.type_id AND o.order_id=r.order_id
+        AND input_number ='${inpNumber}'
+    </select>
+
+    <!--修改车辆表中的状态位 代分配驾驶员-->
+    <update id="updateCarStatus">
+          UPDATE tran_car SET Tra_car_static='代分配驾驶员' WHERE Tra_car_id='${carId}'
+    </update>
+
+    <!--查看库存-->
+    <select id="showInventory" resultType="m">
+        SELECT list_id,list_name,type_name,list_count,list_area,list_height
+        ,(SELECT region_name FROM tran_response_region WHERE region_id =(SELECT region_id FROM tran_response_position WHERE position_id =v.position_id)) regionName
+        ,(SELECT position_name FROM tran_response_position WHERE position_id =v.position_id) postionName
+        FROM (SELECT list_id,list_name,type_name,list_count,list_area,list_height,position_id FROM
+                tran_Response_list t,tran_goods_type g
+                WHERE t.list_type=g.type_id AND position_id!=''
+                AND list_count!=0) v
+    </select>
+
+    <!--更改仓位-->
+    <update id="updateRepPositionId">
+        UPDATE tran_Response_list SET position_id ='${positionId}' WHERE list_id ='${listId}'
+    </update>
+
+    <!--添加仓域-->
+    <insert id="addRepyu" parameterType="m">
+        INSERT INTO tran_response_region VALUES(NULL,#{repyName},#{repyAre},NOW(),#{rid},'');
+    </insert>
+
+
+    <!--读取仓库下的所有仓域-->
+    <select id="getRepYuList" resultType="m">
+        SELECT region_id,region_name FROM tran_response_region WHERE r_id ='${rid}'
+    </select>
+
+    <!--添加仓位-->
+    <insert id="addRepWei" parameterType="m">
+        INSERT INTO tran_response_position VALUES(UUID(),#{repwAre},NOW(),30,#{ryuid},#{repwName})
+    </insert>
 
 </mapper>
