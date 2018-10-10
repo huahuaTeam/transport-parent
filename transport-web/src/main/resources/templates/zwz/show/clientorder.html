@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Title</title>
+    <link rel="stylesheet" href="/js/dataTables/dataTables.bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css"  type="text/css">
+    <style type="text/css">
+        table,tbody,th,td{
+            font-family: "Microsoft Himalaya";
+            font-weight: normal;
+            font-size:15px;
+        }
+        thead th{
+            font-weight: bold;
+            font-size:16px;
+        }
+    </style>
+</head>
+<body>
+<h1>客户订单查询</h1>
+<!--    <div style="display: flex">
+        <div style="border: 1px solid black;width:1030px;height:300px;">图标</div>
+        <div style="border: 1px solid royalblue;width: 320px;height:300px;">查询</div>
+        <div style="border: 1px solid royalblue;width:320px;height:300px;">图表</div>
+    </div>-->
+<hr><hr>
+<div class="panel-body">
+    <table class="table table-striped table-bordered table-hover" id="myTable" >
+        <thead>
+        <tr>
+            <th>订单编号</th>
+            <th>客户名称</th>
+            <th>订单日期</th>
+            <th>订单类型</th>
+            <th>付款方式</th>
+            <th>状态</th>
+        </tr>
+        </thead>
+
+        <tbody >
+        <tr th:each="u : ${session.clientorderlist}">
+
+            <th th:text="${u.id}"></th>
+            <th th:text="${u.name}"></th>
+            <th th:text="${u.time}"></th>
+            <th th:text="${u.type}"></th>
+            <th th:text="${u.pay}"></th>
+ 
+
+            <th>
+            <span th:if="${u.state}=='0'">
+                配送中
+                </span>
+
+                 <span th:if="${u.state}=='1'">
+                     本人签收
+                </span>
+
+                <span th:if="${u.state}=='2'">
+                他人签收
+                </span>
+
+                <span th:if="${u.state}=='3'">
+                快递柜签收
+                </span>
+
+                <span th:if="${u.state}=='4'">
+                无人签收
+                </span>
+
+                <span th:if="${u.state}=='5'">
+                用户拒收
+                </span>
+
+            </th>
+
+        </tr>
+
+
+        </tbody>
+    </table>
+</div>
+<script src="/js/jquery-1.8.3.min.js"></script>
+<script src="/js/dataTables/jquery.dataTables.js"></script>
+<script src="/js/dataTables/dataTables.bootstrap.js"></script>
+<script type="text/javascript">
+    $(document).ready(function (){
+        $('#myTable').DataTable({
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 项结果",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+            "lengthMenu": [5,10,20,30,50],
+            "autoWidth":true
+        });
+    });
+</script>
+</body>
+</html>

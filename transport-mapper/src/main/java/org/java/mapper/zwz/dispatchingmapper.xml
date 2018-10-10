@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.java.mapper.zwz.dispatchingmapper" >
+
+    <update id="delegoods">
+         DELETE FROM tran_deliver_goods WHERE  deliver_id=#{id}
+    </update>
+
+    <select id="selectreject" resultType="java.util.HashMap">
+        SELECT g.deliver_id id,g.Deliver_count `count`
+        ,o.order_receive_name  ordername,o.order_receive_tel tel,o.order_receive_place place,o.order_pay pay,o.order_pay_flag flag,o.order_monry monry,o.order_remark remark
+        ,u.user_name uname
+        FROM tran_deliver_goods g ,tran_user u,tran_order o
+        WHERE g.user_id=u.user_id AND g.order_id =o.order_id AND u.user_id=g.user_id AND g.Deliver_type=5
+    </select>
+
+    <select id="selectbid" resultType="java.util.HashMap">
+        SELECT b_id bid  FROM tran_branch
+    </select>
+
+    <update id="addgoods">
+        INSERT   INTO  tran_deliver_goods VALUES(NULL,NOW(),#{uid},#{oid},0,NULL,0);
+    </update>
+
+    <select id="selectorder" resultType="java.util.HashMap">
+        SELECT o.order_id oid FROM tran_order o WHERE o.order_state IN(0,3) AND o.order_id NOT IN(SELECT  g.order_id  FROM tran_deliver_goods g) AND o.b_id=#{bid};
+    </select>
+
+    <select id="seleteuser" resultType="java.util.HashMap">
+     SELECT u.user_id uid  FROM tran_user  u WHERE u.user_state=1 AND u.b_id=#{bid}
+    </select>
+
+
+
+    <update id="updateorder">
+        UPDATE  tran_order SET  order_state=#{type}  WHERE   order_id=(SELECT order_id FROM  tran_deliver_goods WHERE deliver_id=#{id})
+    </update>
+
+    <select id="getorderparticularsno" resultType="java.util.HashMap" >
+        SELECT g.deliver_id id,g.Deliver_count `count`, o.order_state stype ,o.order_name  name2 ,o.order_tel tel2 ,o.order_place place2
+        ,o.order_receive_name  ordername,o.order_receive_tel tel,o.order_receive_place place,o.order_pay pay,o.order_pay_flag flag,o.order_monry monry,o.order_remark remark
+        ,u.user_name uname
+        FROM tran_deliver_goods g ,tran_user u,tran_order o
+        WHERE g.user_id=u.user_id AND g.order_id =o.order_id AND u.user_id=g.user_id AND g.Deliver_type>3
+        AND  g.deliver_id=#{id}
+    </select>
+
+    <select id="getnoorder" resultType="java.util.HashMap" >
+        SELECT g.deliver_id id,g.Deliver_count `count`, o.order_state stype ,o.order_name  name2 ,o.order_tel tel2 ,o.order_place place2
+        ,o.order_receive_name  ordername,o.order_receive_tel tel,o.order_receive_place place,o.order_pay pay,o.order_pay_flag flag,o.order_monry monry,o.order_remark remark
+        ,u.user_name uname
+        FROM tran_deliver_goods g ,tran_user u,tran_order o
+        WHERE g.user_id=u.user_id AND g.order_id =o.order_id AND u.user_id=g.user_id AND g.Deliver_type=4
+        AND u.user_id=#{id}
+    </select>
+
+
+    <update id="updatedelivery">
+         UPDATE tran_deliver_goods  SET Deliver_type=#{type}, Deliver_count =Deliver_count+1  WHERE deliver_id=#{id}
+    </update>
+
+    <update id="updatedeliveryss">
+        UPDATE tran_deliver_goods  SET Deliver_type=#{type},Deliver_time=NOW()  WHERE deliver_id=#{id}
+    </update>
+
+
+
+    <select id="getorderparticulars" resultType="java.util.HashMap" >
+        SELECT g.deliver_id id, o.order_state stype ,o.order_name  name2 ,o.order_tel tel2 ,o.order_place place2
+        ,o.order_receive_name  ordername,o.order_receive_tel tel,o.order_receive_place place,o.order_pay pay,o.order_pay_flag flag,o.order_monry monry,o.order_remark remark
+        ,u.user_name uname
+        FROM tran_deliver_goods g ,tran_user u,tran_order o
+        WHERE g.user_id=u.user_id AND g.order_id =o.order_id AND u.user_id=g.user_id AND g.Deliver_type IN(0,5)
+        AND  g.deliver_id=#{id}
+    </select>
+
+    <select id="getorder" resultType="java.util.HashMap" >
+     SELECT g.deliver_id id, o.order_state stype ,o.order_name  name2 ,o.order_tel tel2 ,o.order_place place2
+        ,o.order_receive_name  ordername,o.order_receive_tel tel,o.order_receive_place place,o.order_pay pay,o.order_pay_flag flag,o.order_monry monry,o.order_remark remark
+        ,u.user_name uname
+        FROM tran_deliver_goods g ,tran_user u,tran_order o
+        WHERE g.user_id=u.user_id AND g.order_id =o.order_id AND u.user_id=g.user_id AND g.Deliver_type IN(0,5)
+         AND u.user_id=#{id}
+    </select>
+
+</mapper>
